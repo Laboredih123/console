@@ -222,9 +222,3 @@
 			else
 				src.line1.process_signal(S, src)
 			return
-
-/obj/items/wire
-
-/obj/signal/wire/hyper
-	name = "hyper"
-	icon = 'icons/hyperwire.dmi'
