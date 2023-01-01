@@ -18,9 +18,8 @@ obj/signal/computer
 				if(command_list.len < 2)
 					src.show_message("setenv: Takes two arguments.")
 				else
-					var
-						variable = command_list[1]
-						value = command_list[2]
+					var/variable = command_list[1]
+					var/value = command_list[2]
 					if(!variable)
 						src.show_message("setenv: Invalid variable.")
 						return
@@ -92,9 +91,8 @@ obj/signal/computer
 				if(command_list.len < 2)
 					src.show_message("arc: Takes at least two arguments.")
 				else
-					var
-						datum/file/addition = src.parse2file(command_list[1])
-						datum/file/archive/arc_file = src.parse2file(command_list[2])
+					var/datum/file/addition = src.parse2file(command_list[1])
+					var/datum/file/archive/arc_file = src.parse2file(command_list[2])
 					if(!addition)
 						if(command_list[1] != "*")
 							src.show_message("arc: File not found.")
@@ -161,11 +159,11 @@ obj/signal/computer
 					return
 				for(var/datum/task/T in src.tasks)
 					switch(T.state)
-						if(1.0)
+						if(1)
 							src.show_message("[src.tasks.Find(T)](P): [T.source]")
-						if(2.0)
+						if(2)
 							src.show_message("[src.tasks.Find(T)](F): [T.source]")
-						if(3.0)
+						if(3)
 							src.show_message("[src.tasks.Find(T)](B): [T.source]")
 						else
 

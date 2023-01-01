@@ -10,8 +10,9 @@
 	"tgstationTestExplorer.project.resultsType": "json",
 	"workbench.editorAssociations": {
 		"*.ipynb": "jupyter-notebook",
-		"*.dmi": "imagePreview.previewEditor",
-		"*.swf": "default"
+		"*.dmi": "dmiEditor.dmiEditor",
+		"*.swf": "default",
+		"git-rebase-todo": "gitlens.rebase"
 	},
 	"files.trimTrailingWhitespace": true,
 	"files.exclude": {

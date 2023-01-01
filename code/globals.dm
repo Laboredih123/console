@@ -5,7 +5,7 @@ var
 	list/door_codes = list()
 	motd = ""
 
-world
+/world
 	mob = /mob
 	turf = /turf/floor
 	area = /area
@@ -13,37 +13,34 @@ world
 	hub = "Exadv1.console"
 	name = "console"
 	status = "Version N2.3"
-	New()
-		..()
-		status = "Version [n_version][n_sub]"
-		
-		LoadAdmins()
-		LoadConfig()	
-		LoadMOTD()
 
-		// Initialize with loaded config.
-		for(var/obj/s)
-			s.Initialize()
+/world/New()
+	..()
+	status = "Version [n_version][n_sub]"
 
-		LoadLabs()
+	LoadAdmins()
+	LoadConfig()
+	LoadMOTD()
 
-		// Spawn a process to save the labs every 5 minutes.
-		spawn(1)
-			while(1)
-				sleep(3000)
-				SaveLabs()
-datum
-	var
+	// Initialize with loaded config.
+	for(var/obj/s)
+		s.Initialize()
 
-		rname
+	LoadLabs()
 
-obj
+	// Spawn a process to save the labs every 5 minutes.
+	spawn(1)
+		while(1)
+			sleep(3000)
+			SaveLabs()
+
+/datum
+	var/rname
+
+/obj
 	layer = OBJ_LAYER
 	var/list/bugs = list()
 
 
-obj
-	var
-	obj/items/lock/lock
-
-
+/obj
+	var/obj/items/lock/lock

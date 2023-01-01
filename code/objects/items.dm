@@ -1,7 +1,7 @@
 obj/items
 	name = "items"
 	icon = 'icons/items.dmi'
-	var/b_flags = 0.0
+	var/b_flags = 0
 
 	book
 		name = "book"
@@ -13,7 +13,7 @@ obj/items
 	bug_scan
 		name = "electronic scanner"
 		icon_state = "b_scan"
-		b_flags = 1.0
+		b_flags = 1
 	computer
 		name = "computer"
 		icon_state = "cpu"
@@ -58,14 +58,14 @@ obj/items
 		icon = 'icons/computer.dmi'
 		icon_state = "disk"
 		var/datum/file/dir/root = null
-		b_flags = 2.0
+		b_flags = 2
 	inv_pen
 		name = "invisible pen"
 		icon_state = "inv_pen"
 	key
 		name = "key"
 		icon_state = "key"
-		var/id = 1.0
+		var/id = 1
 	lis_bug
 		name = "listening bug"
 		icon_state = "bug_black"
@@ -74,7 +74,7 @@ obj/items
 	lock
 		name = "lock"
 		icon_state = "lock"
-		var/id = 1.0
+		var/id = 1
 		var/obj/items/lockpick/cur_pick = null
 		e_lock
 			name = "keypad lock"
@@ -87,8 +87,8 @@ obj/items
 		name = "lockpick/tension wrench"
 		icon_state = "lockpick"
 		var/obj/items/lock/cur_lock = null
-		var/cur_pin = 1.0
-		var/cur_pos = 5.0
+		var/cur_pin = 1
+		var/cur_pos = 5
 		var/pin_loc = "55555"
 		var/target = null
 		var/temp = null

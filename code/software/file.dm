@@ -2,7 +2,7 @@ datum
 	file
 		var
 			name = "file"
-			flags = 0.0
+			flags = 0
 			special_flags = 0
 			datum/file/dir/parent = null
 			obj/signal/computer/master = null
@@ -23,7 +23,7 @@ datum
 			executable
 				name = "executable"
 				var/function = null
-				flags = 3.0
+				flags = 3
 				var/list/var_list = list()
 				var/sys_stat
 				compiler
@@ -46,4 +46,4 @@ datum
 					name = "word process"
 			sound
 				name = "sound"
-				flags = 3.0
+				flags = 3

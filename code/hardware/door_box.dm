@@ -9,7 +9,7 @@ obj/signal
 		id = "0"
 		var/s_id = "0"
 		var/d_id = "0"
-		var/d_dir = 10.0
+		var/d_dir = 10
 		var/obj/signal/line1 = null
 
 		var

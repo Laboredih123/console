@@ -4,11 +4,11 @@ obj/signal/hub
 		icon_state = "router"
 		var/mode = "normal"
 		var/m_data = null
-		var/flags = 1.0
+		var/flags = 1
 		process_signal(obj/signal/structure/S as obj in view(usr.client), obj/source as obj in view(usr.client))
 			..()
 			if(!S) return
-			
+
 			S.loc = src.loc
 			var/number = 0
 			var/list/L = list()

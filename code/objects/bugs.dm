@@ -18,8 +18,8 @@ obj/items
 				var/i = input(user, "What color?", "Paint", null) in list( "black", "grey", "gold" )
 				var/px = input(user, "X coord? -16 to 16", "Paint", null)  as num
 				var/py = input(user, "Y coord? -16 to 16", "Paint", null)  as num
-				px = min(max(round(px), -16.0), 16)
-				py = min(max(round(py), -16.0), 16)
+				px = min(max(round(px), -16), 16)
+				py = min(max(round(py), -16), 16)
 				if ((src.loc == user && P.loc == user))
 					src.pixel_x = px
 					src.pixel_y = py

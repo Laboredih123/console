@@ -481,13 +481,13 @@ datum/file/normal/executable/word_process/execute(params in view(usr.client), fl
 datum/file/normal/executable/execute(params in view(usr.client), flag in view(usr.client))
 
 	switch(src.function)
-		if(1.0)
+		if(1)
 			if (src.master.sys_stat == 0)
 				src.master.sys_stat = 1
 				src.master.show_message("System Kernel Loaded and Operating!")
 			else
 				src.master.show_message("ERROR: Kernel already loaded")
-		if(2.0)
+		if(2)
 			if (src.master.sys_stat == 0)
 				src.master.show_message("ERROR: A kernel is needed to load the OS.")
 			else

@@ -41,7 +41,7 @@ obj
 									if(istype(A,/obj/infared)) continue
 									if(istype(A,/obj/door)) continue
 									if(istype(A,/obj/signal/box)) continue
-									if(istype(A,/Conveyor)) continue
+									if(istype(A,/obj/signal/Conveyor)) continue
 									if(istype(A,/obj/signal/sign_box)) continue
 									if(A)
 										if(A.has_teleported) continue
@@ -90,7 +90,7 @@ obj
 			process_signal(obj/signal/structure/S,atom/source)
 				..()
 				if(!S) return
-				
+
 				S.loc = src.loc
 				S.master = src
 				if(source != line1)

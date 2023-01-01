@@ -104,7 +104,7 @@ obj/items
 
 			if (istype(L, /obj/items/lock_kit))
 				var/t = input(user, "What should be the pin positions?", "Lock Kit", null)  as num
-				t = min(max(round(t), 1), 99999.0)
+				t = min(max(round(t), 1), 99999)
 				if ((L.loc != usr || src.loc != usr))
 					return
 				src.id = t
@@ -135,7 +135,7 @@ obj/items
 		attack_by(obj/L as obj in view(usr.client), mob/user in view(usr.client))
 			if (istype(L, /obj/items/lock_kit))
 				var/t = input(user, "What should be the new height levels?", "Lock Kit", null)  as num
-				t = min(max(round(t), 1), 99999.0)
+				t = min(max(round(t), 1), 99999)
 				if ((L.loc != usr || src.loc != usr))
 					return
 				src.id = t

@@ -5,7 +5,7 @@
 		"type": "byond",
 		"request": "launch",
 		"name": "Launch DreamSeeker",
-		"preLaunchTask": "Build All",
+		"preLaunchTask": "dm: build - console.dme",
 		"dmb": "${workspaceFolder}/${command:CurrentDMB}"
 		}
 	]

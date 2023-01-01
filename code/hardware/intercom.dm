@@ -6,7 +6,7 @@ obj/signal
 		icon = 'icons/computer.dmi'
 		icon_state = "intercom"
 		var/obj/signal/line1 = null
-		var/state = 0.0
+		var/state = 0
 		hear(msg in view(usr.client), atom/source as mob|obj|turf|area in view(usr.client), s_type in view(usr.client), c_mes in view(usr.client), r_src as mob|obj|turf|area in view(usr.client))
 			if(!ismob(source)) return
 			if ((src.state && src.line1))

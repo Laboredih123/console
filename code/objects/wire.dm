@@ -3,8 +3,8 @@ obj/items
 		desc = "This is just a simple piece of regular insulated wire."
 		name = "wire"
 		icon_state = "item_wire"
-		var/amount = 1.0
-		var/laying = 0.0
+		var/amount = 1
+		var/laying = 0
 		var/obj/signal/old_lay = null
 		var/w_color = "black"
 		var/scolor = "black"

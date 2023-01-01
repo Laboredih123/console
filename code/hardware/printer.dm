@@ -39,7 +39,7 @@ obj/signal
 		process_signal(obj/signal/S as obj in view(usr.client), obj/source as obj in view(usr.client))
 			..()
 			if(isnull(S))return
-			
+
 			S.loc = null
 			S.master = src
 			if (src.printing)
@@ -54,7 +54,7 @@ obj/signal
 						src.line1.process_signal(S, src)
 					return
 			else
-				if ((S.id != "[-1.0]" || (!( istype(S.cur_file, /datum/file/normal) ) || S.cur_file.flags & 1)))
+				if ((S.id != "[-1]" || (!( istype(S.cur_file, /datum/file/normal) ) || S.cur_file.flags & 1)))
 					S.id = "pr_fail"
 					S.dest_id = S.source_id
 					S.source_id = "printer"

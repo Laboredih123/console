@@ -6,7 +6,7 @@ obj/signal
 		icon = 'icons/computer.dmi'
 		icon_state = "microphone_0"
 		var/obj/signal/line1 = null
-		var/state = 0.0
+		var/state = 0
 		disconnectfrom(S as obj in view(usr.client))
 
 			if (S == src.line1)

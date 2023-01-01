@@ -52,7 +52,7 @@ obj/signal
 		process_signal(obj/signal/S, obj/source)
 			..()
 			if(isnull(S))return
-			
+
 			S.master = src
 			S.loc = src.loc
 			del(S)
@@ -176,43 +176,43 @@ obj/signal
 
 				var/choice = input("Which line would you like to disconnect? 1-10", "Hub", null, null)  as num
 				switch(choice)
-					if(1.0)
+					if(1)
 						if (src.line1)
 							src.line1.disconnectfrom(src)
 						src.line1 = null
-					if(2.0)
+					if(2)
 						if (src.line2)
 							src.line2.disconnectfrom(src)
 						src.line2 = null
-					if(3.0)
+					if(3)
 						if (src.line3)
 							src.line3.disconnectfrom(src)
 						src.line3 = null
-					if(4.0)
+					if(4)
 						if (src.line4)
 							src.line4.disconnectfrom(src)
 						src.line4 = null
-					if(5.0)
+					if(5)
 						if (src.line5)
 							src.line5.disconnectfrom(src)
 						src.line5 = null
-					if(6.0)
+					if(6)
 						if (src.line6)
 							src.line6.disconnectfrom(src)
 						src.line6 = null
-					if(7.0)
+					if(7)
 						if (src.line7)
 							src.line7.disconnectfrom(src)
 						src.line7 = null
-					if(8.0)
+					if(8)
 						if (src.line8)
 							src.line8.disconnectfrom(src)
 						src.line8 = null
-					if(9.0)
+					if(9)
 						if (src.line9)
 							src.line9.disconnectfrom(src)
 						src.line9 = null
-					if(10.0)
+					if(10)
 						if (src.line10)
 							src.line10.disconnectfrom(src)
 						src.line10 = null

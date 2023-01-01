@@ -5,8 +5,8 @@ obj/signal
 		icon_state = "hub"
 		density = 1
 		place_locked = 1
-		var/offset = 0.0
-		var/multi = 20.0
+		var/offset = 0
+		var/multi = 20
 		var/s_id = "router"
 		var/d_id = "0"
 		var/obj/signal/line1 = null
@@ -16,7 +16,7 @@ obj/signal
 		var/obj/signal/line5 = null
 		var/obj/signal/line_temp = null
 		var/obj/signal/line_control = null
-		var/position = 1.0
+		var/position = 1
 		process_signal(obj/signal/structure/S as obj in view(usr.client), obj/source as obj in view(usr.client))
 			..()
 			if(!S) return
@@ -121,7 +121,7 @@ obj/signal
 			if (src.line_temp)
 				src.line_temp.disconnectfrom(src)
 			if (src.line_control)
-				src.line_control.disconnectfrom(src)				
+				src.line_control.disconnectfrom(src)
 			src.line1 = null
 			src.line2 = null
 			src.line3 = null
@@ -167,32 +167,31 @@ obj/signal
 
 				var/choice = input("Which line would you like to disconnect? 1-6 (6=control)", "Hub", null, null)  as num
 				switch(choice)
-					if(1.0)
+					if(1)
 						if (src.line1)
 							src.line1.disconnectfrom(src)
 						src.line1 = null
-					if(2.0)
+					if(2)
 						if (src.line2)
 							src.line2.disconnectfrom(src)
 						src.line2 = null
-					if(3.0)
+					if(3)
 						if (src.line3)
 							src.line3.disconnectfrom(src)
 						src.line3 = null
-					if(4.0)
+					if(4)
 						if (src.line4)
 							src.line4.disconnectfrom(src)
 						src.line4 = null
-					if(5.0)
+					if(5)
 						if (src.line5)
 							src.line5.disconnectfrom(src)
 						src.line5 = null
-					if(6.0)
+					if(6)
 						if (src.line_temp)
 							src.line_temp.disconnectfrom(src)
 						src.line_temp = null
-					if(7.0)
+					if(7)
 						if (src.line_control)
 							src.line_control.disconnectfrom(src)
 						src.line_control = null
-

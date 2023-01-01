@@ -1,5 +1,4 @@
-var
-	excode_speed = 30
+var/excode_speed = 30
 	// Adding this to trottle excode execution speeds on the fly -Nadrew
 
 #define FILE_FLAG_SUPER 32
@@ -90,9 +89,8 @@ datum/task/proc/parse()
 					if(t1.len != 3)
 						src.master.show_message("setenv: Takes two arguments.")
 					else
-						var
-							var_one = get_data(t1[2])
-							var_two = get_data(t1[3])
+						var/var_one = get_data(t1[2])
+						var/var_two = get_data(t1[3])
 						var_one = ckeyEx(var_one)
 						var_one = replacetext(var_one,";","")
 						if(var_two == null)
@@ -108,9 +106,8 @@ datum/task/proc/parse()
 
 						src.master.show_message("getenv: Takes two arguments.")
 					else
-						var
-							var_one = ckeyEx(get_data(t1[2]))
-							var_two = t1[3]
+						var/var_one = ckeyEx(get_data(t1[2]))
+						var/var_two = t1[3]
 						if(!var_one||!var_two)
 							src.master.show_message("getenv: Invalid argument(s) supplied.")
 						else
@@ -123,9 +120,8 @@ datum/task/proc/parse()
 					if(t1.len != 3)
 						src.master.show_message("uppertext: Takes two arguments.")
 					else
-						var
-							var_one = get_data(t1[2])
-							var_two = t1[3]
+						var/var_one = get_data(t1[2])
+						var/var_two = t1[3]
 						if(!var_one||!var_two)
 							src.master.show_message("uppertext: Invalid argument(s) supplied.")
 						else
@@ -136,9 +132,8 @@ datum/task/proc/parse()
 					if(t1.len != 3)
 						src.master.show_message("lowertext: Takes two arguments.")
 					else
-						var
-							var_one = get_data(t1[2])
-							var_two = t1[3]
+						var/var_one = get_data(t1[2])
+						var/var_two = t1[3]
 						if(!var_one||!var_two)
 							src.master.show_message("lowertext: Invalid argument(s) supplied.")
 						else
@@ -150,9 +145,8 @@ datum/task/proc/parse()
 					if(t1.len != 3)
 						src.master.show_message("md5: Takes two arguments.")
 					else
-						var
-							var_one = get_data(t1[2])
-							var_two = t1[3]
+						var/var_one = get_data(t1[2])
+						var/var_two = t1[3]
 						if(!var_one||!var_two)
 							src.master.show_message("md5: Invalid argument(s) supplied.")
 						else
@@ -164,9 +158,8 @@ datum/task/proc/parse()
 					if(t1.len != 3)
 						src.master.show_message("ckey: Takes two arguments.")
 					else
-						var
-							var_one = get_data(t1[2])
-							var_two = t1[3]
+						var/var_one = get_data(t1[2])
+						var/var_two = t1[3]
 						if(!var_one||!var_two)
 							src.master.show_message("ckey: Invalid argument(s) supplied.")
 						else
@@ -205,11 +198,10 @@ datum/task/proc/parse()
 					if(t1.len < 4)
 						src.master.show_message("rand requires three arguments")
 					else
-						var
-							l_bound = text2num(get_data(t1[2]))
-							h_bound = text2num(get_data(t1[3]))
-							variable = t1[4]
-							result = rand(l_bound,h_bound)
+						var/l_bound = text2num(get_data(t1[2]))
+						var/h_bound = text2num(get_data(t1[3]))
+						var/variable = t1[4]
+						var/result = rand(l_bound,h_bound)
 						set_data(variable, "[result]")
 					counter++
 
@@ -258,11 +250,10 @@ datum/task/proc/parse()
 					if(t1.len < 4)
 						src.master.show_message("Not enough arguments for copytext.")
 					else
-						var
-							variable = t1[2]
-							string = get_data(t1[3])
-							start = text2num(get_data(t1[4]))
-							end = 0
+						var/variable = t1[2]
+						var/string = get_data(t1[3])
+						var/start = text2num(get_data(t1[4]))
+						var/end = 0
 						if(t1.len >= 5)
 							end = text2num(get_data(t1[5]))
 						if(start <= 0) start = 1
@@ -275,11 +266,10 @@ datum/task/proc/parse()
 					if(t1.len < 5)
 						src.master.show_message("Not enough parameters for replacetext")
 					else
-						var
-							variable = t1[2]
-							string = get_data(t1[3])
-							find = get_data(t1[4])
-							replace = get_data(t1[5])
+						var/variable = t1[2]
+						var/string = get_data(t1[3])
+						var/find = get_data(t1[4])
+						var/replace = get_data(t1[5])
 						if(length(string) >= 5000) string = copytext(string,1,5001)
 						if(length(find) >= 5000) find = copytext(find,1,5001)
 						if(length(replace) >= 5000) replace = copytext(replace,1,5001)
@@ -289,12 +279,11 @@ datum/task/proc/parse()
 					if(t1.len < 4)
 						src.master.show_message("Not enough parameters for findtext")
 					else
-						var
-							variable = t1[2]
-							string = get_data(t1[3])
-							find = get_data(t1[4])
-							start = 1
-							end = length(string)
+						var/variable = t1[2]
+						var/string = get_data(t1[3])
+						var/find = get_data(t1[4])
+						var/start = 1
+						var/end = length(string)
 						if(t1.len >= 5)
 							start = text2num(get_data(t1[5]))
 						if(t1.len >= 6)
