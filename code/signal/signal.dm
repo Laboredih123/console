@@ -24,17 +24,17 @@
 	return 0
 
 /obj/signal/process_signal(obj/signal/structure/S,atom/source)
-		if(signal_hit>=max_signal)
-			if(istype(source,/obj/signal/wire))
-				//var /area/boom_loc = source.loc
-				spawn(0)
-					del(source)
-					//new /image/boom(loc=boom_loc)
-			del(S)
-		signal_hit++
-		spawn(20)
-			signal_hit--
-			if(signal_hit<0) signal_hit = 0
+	if(signal_hit>=max_signal)
+		if(istype(source,/obj/signal/wire))
+			//var /area/boom_loc = source.loc
+			spawn(0)
+				del(source)
+				//new /image/boom(loc=boom_loc)
+		del(S)
+	signal_hit++
+	spawn(20)
+		signal_hit--
+		if(signal_hit<0) signal_hit = 0
 
 /obj/signal/proc/process_signal(obj/S)
 
@@ -83,9 +83,9 @@
 	var/tmp/timer_down = 0
 
 /obj/signal/structure/New()
-			..()
-			spawn(1)
-				LifeTimer()
+	..()
+	spawn(1)
+		LifeTimer()
 
 /obj/signal/structure/proc/LifeTimer()
 	if(timer_down) return
