@@ -52,7 +52,6 @@ obj/signal
 				spawn( 2 )
 					if (src.line1)
 						src.line1.process_signal(S, src)
-					return
 			else
 				if ((S.id != "[-1]" || (!( istype(S.cur_file, /datum/file/normal) ) || S.cur_file.flags & 1)))
 					S.id = "pr_fail"
@@ -64,7 +63,6 @@ obj/signal
 					spawn( 2 )
 						if (src.line1)
 							src.line1.process_signal(S, src)
-						return
 				else
 					src.printing = 1
 					var/obj/items/paper/P = new /obj/items/paper(  )
@@ -82,4 +80,3 @@ obj/signal
 					spawn( 2 )
 						if (src.line1)
 							src.line1.process_signal(S, src)
-						return

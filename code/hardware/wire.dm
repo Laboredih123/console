@@ -175,14 +175,11 @@
 	else
 		src.line2 = null
 	src.update()
-	return
 
 /obj/signal/wire/New()
 	..()
 	spawn( 50 )
 		src.update()
-		return
-	return
 
 /obj/signal/wire/Del()
 	for(var/obj/signal/structure/S in src.loc)
@@ -196,7 +193,6 @@
 	src.line1 = null
 	src.line2 = null
 	..()
-	return
 
 /obj/signal/wire/process_signal(obj/signal/S as obj in view(usr.client), obj/source as obj in view(usr.client))
 	..()
@@ -214,11 +210,9 @@
 				del(S)
 			else
 				src.line2.process_signal(S, src)
-			return
 	else
 		spawn( 1 )
 			if (!( src.line1 ))
 				del(S)
 			else
 				src.line1.process_signal(S, src)
-			return

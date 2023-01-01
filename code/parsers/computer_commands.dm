@@ -215,36 +215,36 @@ obj/signal/computer
 						if("pass_1")
 							if (param)
 								if (param == "none")
-									src.b_p1 = null
+									src.bios_pass1 = null
 								else
-									src.b_p1 = param
+									src.bios_pass1 = param
 									show_message("BIOS pass 1 set.")
 							else
-								if (src.b_p1)
+								if (src.bios_pass1)
 									show_message("BIOS level 1 password is set.")
 								else
 									show_message("No BIOS level 1 password is set.")
 						if("pass_2")
 							if (param)
 								if (param == "none")
-									src.b_p2 = null
+									src.bios_pass2 = null
 								else
-									src.b_p2 = param
+									src.bios_pass2 = param
 									show_message("BIOS pass 2 set.")
 							else
-								if (src.b_p2)
+								if (src.bios_pass2)
 									show_message("BIOS level 2 password is set.")
 								else
 									show_message("No BIOS level 2 password is set.")
 						if("pass_3")
 							if (param)
 								if (param == "none")
-									src.b_p3 = null
+									src.bios_pass3 = null
 								else
-									src.b_p3 = param
+									src.bios_pass3 = param
 									show_message("BIOS pass 3 set.")
 							else
-								if (src.b_p3)
+								if (src.bios_pass3)
 									show_message("BIOS level 3 password is set.")
 								else
 									show_message("No BIOS level 3 password is set.")
@@ -253,9 +253,9 @@ obj/signal/computer
 								src.bios1 = "A:/boot.sys"
 								src.bios2 = "/sys/boot.sys"
 								src.bios3 = null
-								src.b_p1 = null
-								src.b_p2 = null
-								src.b_p3 = null
+								src.bios_pass1 = null
+								src.bios_pass2 = null
+								src.bios_pass3 = null
 							else
 								src.show_message("The parameter must be true in order to reset to default.")
 						if("help")
@@ -283,7 +283,6 @@ obj/signal/computer
 							x++
 						spawn( 0 )
 							t2.execute(jointext(L, "[ascii2text(2)]"), 1)
-							return
 			if("run")
 				var/datum/file/normal/t2 = src.parse2file(command_list[1])
 				show_message("Executing [jointext(command_list, " ")]", 1)
@@ -438,7 +437,6 @@ obj/signal/computer
 				stop(0)
 				spawn( 5 )
 					start(0)
-					return
 			if("shutdown")
 				src.show_message("Shutting down...")
 				sleep(10)

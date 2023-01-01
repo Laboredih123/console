@@ -53,7 +53,6 @@ obj/signal
 				spawn( 0 )
 					if (src.line1)
 						src.line1.process_signal(S1, src)
-					return
 
 		process_signal(S as obj in view(usr.client), source as obj in view(usr.client))
 			..()

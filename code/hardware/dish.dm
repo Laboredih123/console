@@ -39,7 +39,6 @@ obj/signal/antenna
 							missile(/obj/radio, src.loc, C.loc)
 							spawn( 0 )
 								C.process_radio(S1,src)
-								return
 
 			else
 				if (S.id == "e_key")
@@ -57,4 +56,3 @@ obj/signal/antenna
 			del(S)
 			sleep(5)
 			src.broadcasting = null
-

@@ -46,8 +46,6 @@ obj/signal/hub
 						S1.params = "Received signal: [S.id] ([S.params]) from [S.source_id] to [S.dest_id]. Parsed: [t_num]"
 						spawn( 0 )
 							src.line_control.process_signal(S1, src)
-							return
-						return
 				t_num = text2num(t_num)
 				spawn( 0 )
 					var/nflags = text2num(src.flags)
@@ -115,7 +113,6 @@ obj/signal/hub
 												spawn( 0 )
 													if (S2)
 														S2.process_signal(S1, src)
-													return
 
 										else
 											if (src.line1)
@@ -149,9 +146,6 @@ obj/signal/hub
 						S1.params = "Position altered to [src.position]!"
 						spawn( 0 )
 							src.line_control.process_signal(S1, src)
-							return
-						return
-				else
 					if (S.id == "src")
 						src.s_id = src.params
 						spawn( 0 )
@@ -162,8 +156,6 @@ obj/signal/hub
 							S1.params = "Source id altered to [src.s_id]!"
 							spawn( 0 )
 								src.line_control.process_signal(S1, src)
-								return
-							return
 					else
 						if (S.id == "multi")
 							src.multi = src.params
@@ -174,7 +166,6 @@ obj/signal/hub
 								S1.source_id = src.s_id
 								S1.id = 1
 								S1.params = "Destination id altered to [src.d_id]!"
-								return
 						else
 							var/obj/signal/structure/S1 = new /obj/signal/structure()
 							if (src.id == "offset")
@@ -185,7 +176,6 @@ obj/signal/hub
 									S1.source_id = src.s_id
 									S1.id = 1
 									S1.params = "Destination id altered to [src.d_id]!"
-									return
 							else
 								if (S.id == "dest")
 									src.d_id = S1.params
@@ -195,7 +185,6 @@ obj/signal/hub
 										S1.source_id = src.s_id
 										S1.id = 1
 										S1.params = "Destination id altered to [src.d_id]!"
-										return
 								else
 									if (S.id == "mode")
 										src.mode = S.params
@@ -207,8 +196,6 @@ obj/signal/hub
 											S1.params = "Mode altered to [src.mode] (it must be normal or 5>1 else router will not work)!"
 											spawn( 0 )
 												src.line_control.process_signal(S1, src)
-												return
-											return
 									else
 										if (S.id == "flags")
 											src.flags = S.params
@@ -220,8 +207,6 @@ obj/signal/hub
 												S1.params = "Flags altered to [src.flags]! Query for info."
 												spawn( 0 )
 													src.line_control.process_signal(S1, src)
-													return
-												return
 										else
 											if (S.id == "query")
 												switch(S.params)
@@ -234,8 +219,6 @@ obj/signal/hub
 															S1.params = "Position is [src.position]!"
 															spawn( 0 )
 																src.line_control.process_signal(S1, src)
-																return
-															return
 													if("src")
 														spawn( 0 )
 															S1 = new /obj/signal/structure(  )
@@ -245,8 +228,6 @@ obj/signal/hub
 															S1.params = "Source id is [src.s_id]!"
 															spawn( 0 )
 																src.line_control.process_signal(S1, src)
-																return
-															return
 													if("dest")
 														spawn( 0 )
 															S1 = new /obj/signal/structure(  )
@@ -256,8 +237,6 @@ obj/signal/hub
 															S1.params = "Destination id is [src.d_id]!"
 															spawn( 0 )
 																src.line_control.process_signal(S1, src)
-																return
-															return
 													if("mode")
 														spawn( 0 )
 															S1 = new /obj/signal/structure(  )
@@ -267,8 +246,6 @@ obj/signal/hub
 															S1.params = "Mode is is [src.mode]!"
 															spawn( 0 )
 																src.line_control.process_signal(S1, src)
-																return
-															return
 													if("flags")
 														var/t = null
 
@@ -284,6 +261,4 @@ obj/signal/hub
 															S1.params = (t ? "Current flags: [t] adds to [src.flags]" : "No flags! Available flags 1,2")
 															spawn( 0 )
 																src.line_control.process_signal(S1, src)
-																return
-															return
 				del(S)

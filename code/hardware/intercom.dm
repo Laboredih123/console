@@ -31,7 +31,6 @@ obj/signal
 				spawn( 0 )
 					if (src.line1)
 						src.line1.process_signal(S1, src)
-					return
 			src.state = 0
 			src.icon_state = "intercom"
 
@@ -83,4 +82,3 @@ obj/signal
 			src.state = 1
 			usr << "Please speak into the intercom."
 			src.icon_state = "intercom_1"
-

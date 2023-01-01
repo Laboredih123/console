@@ -9,7 +9,6 @@ obj
 				src.invisibility = 0
 				src.layer = OBJ_LAYER
 				src.loc = usr
-				return
 
 			drop()
 				set src in usr
@@ -22,7 +21,6 @@ obj
 				if (src == usr.equipped)
 					src.rem_equip(usr)
 				src.loc = usr.loc
-				return
 
 			equip()
 				set src in usr
@@ -38,7 +36,6 @@ obj
 						usr.equipped = null
 				if(!s)
 					src.add_equip(usr)
-				return
 
 			unequip()
 				set src in usr
@@ -48,15 +45,12 @@ obj
 					usr.equipped.rem_equip(usr)
 				else
 					usr << "\blue <B>You do not have anything equipped!</B>"
-					return
-				return
 
 			examine()
 				set src in view(1)
 				set category = "items"
 
 				usr << "\icon[src] <B>[src]</B>\n\t[src.desc]"
-				return
 		proc
 			rem_equip(mob/user as mob in view(usr.client))
 

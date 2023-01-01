@@ -76,7 +76,6 @@ obj/signal
 							missile(/obj/radio, src.loc, C.loc)
 							spawn( 0 )
 								C.process_radio(S1,src)
-								return
 
 			else
 				if (S.id == "e_key")
@@ -94,7 +93,6 @@ obj/signal
 			del(S)
 			sleep(5)
 			src.broadcasting = null
-			return
 
 		process_radio(obj/signal/structure/S as obj in view(usr.client),atom/source)
 			S.loc = src

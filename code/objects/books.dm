@@ -7,7 +7,6 @@ obj/items
 				if (src.flags & 1)
 					src.verbs -= /obj/items/book/verb/bind
 					src.verbs -= /obj/items/book/verb/label
-				return
 
 		verb
 			bind()
@@ -54,7 +53,6 @@ obj/items
 				else
 					var/obj/items/paper/temp = src.contents[number]
 					usr << browse(temp.format(), "window=Page [number] of \icon[src][src.name] titled [temp.name]")
-				return
 
 		attack_by(obj/items/target in view(usr.client))
 

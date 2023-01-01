@@ -118,7 +118,6 @@
 		spawn( 0 )
 			if (I)
 				I.wire(src, user)
-			return
 	else if(istype(W,/obj/items/wrench))
 		if(src.unlockable)
 			if(place_locked)

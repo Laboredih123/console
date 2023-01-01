@@ -37,8 +37,6 @@ mob
 						I.master = null
 						I.loc = src.loc
 
-		return
-
 	Login()
 		if (src.icon_state == "" || src.icon_state == "null")
 			src.icon_state = src.gender

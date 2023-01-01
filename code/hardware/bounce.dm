@@ -37,7 +37,7 @@ obj/signal
 			spawn( 2 )
 				if (src.line1)
 					src.line1.process_signal(S, src)
-				return
+
 		verb
 			get()
 				set src in oview(usr,1)

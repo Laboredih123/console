@@ -51,7 +51,6 @@ obj/items
 			else
 				src.com.loc = src.loc
 				del(src)
-				return
 	disk
 		desc = "You can store and transfer files using these!"
 		name = "disk"

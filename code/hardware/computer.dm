@@ -8,18 +8,18 @@
 	var/datum/file/normal/cur_log = null
 	var/obj/signal/line1 = null
 	var/obj/signal/line2 = null
-	var/rbootpm = null
-	var/lrbc = null
+	var/reboot_damage = null
+	var/last_startup = null
 	var/recursion = null
 	var/err_level = null
 	var/out_level = null
-	var/b_lev = 0
+	var/bios_level = 0
 	var/bios1 = "A:/boot.sys"
 	var/bios2 = "/sys/boot.sys"
 	var/bios3 = null
-	var/b_p1 = null
-	var/b_p2 = null
-	var/b_p3 = null
+	var/bios_pass1 = null
+	var/bios_pass2 = null
+	var/bios_pass3 = null
 	var/verbose = 0
 	var/datum/file/dir/level = null
 	var/status = "off"
@@ -52,7 +52,6 @@
 		src.name = "[n]- '[msg]'"
 	else
 		src.name = "[n]"
-	return
 
 /obj/signal/computer/verb/eject()
 	set src in view(1)
@@ -60,7 +59,6 @@
 
 	if (src.disk)
 		src.eject_disk()
-	return
 
 /obj/signal/computer/verb/power_off()
 	set src in view(1)
@@ -69,10 +67,8 @@
 	if (src.status == "on")
 		spawn( 0 )
 			src.stop()
-			return
 	else
 		usr << "It's not even on!"
-	return
 
 /obj/signal/computer/verb/boot()
 	set src in view(1)
@@ -80,7 +76,6 @@
 
 	if (src.status != "on")
 		src.start()
-	return
 
 /obj/signal/computer/verb/operate()
 	set src in view(1)
@@ -110,7 +105,6 @@
 
 	if (src.status != "on")
 		src.start()
-	return
 
 /obj/signal/computer/verb/stop_operate()
 	set src in view(1)
@@ -119,14 +113,11 @@
 		usr.using_laptop = null
 	else
 		usr.using_computer = null
-	return
 
 /obj/signal/computer/proc/send_out(obj/S as obj in view(usr.client), obj/signal/target in view(usr.client))
 	spawn( 1 )
 		if (target)
 			target.process_signal(S, src)
-		return
-	return
 
 /obj/signal/computer/proc/insert_disk(obj/D in view(usr.client))
 	if (src.disk)
@@ -140,7 +131,6 @@
 		src.disk = D
 		D.loc = src
 		src.disk.root.set_master(src)
-	return
 
 /obj/signal/computer/proc/eject_disk()
 	if (src.disk)
@@ -151,7 +141,6 @@
 		if(istype(lc,/obj/signal/rackmount)) lc = src.loc.loc
 		src.disk.loc = lc
 		src.disk = null
-	return
 
 /obj/signal/computer/proc/stop(console=1)
 	src.status = "off"
@@ -179,7 +168,6 @@
 		if (istype(src.cur_log, /datum/file/normal))
 			src.cur_log.text += "Shutdown [time2text(world.realtime, "MM/DD/YYYY hh:mm:ss")]; \[terminate\]"
 		src.cur_log = null
-	return
 
 /obj/signal/computer/proc/start(console=1)
 	if ((src.status == "destroyed" || src.status == "no_m"))
@@ -190,152 +178,136 @@
 				var/ty = "desktop"
 				if(istype(src,/obj/signal/computer/laptop)) ty = "laptop"
 				M << output(null,"[ty]_window.computer_output")
-	src.rbootpm++
-	if ((src.lrbc + 60) < world.time)
-		src.lrbc = world.time
-		src.rbootpm--
-		src.rbootpm = max(src.rbootpm, 0)
+	src.reboot_damage++
+	if ((src.last_startup + 60) < world.time)
+		src.last_startup = world.time
+		src.reboot_damage--
+		src.reboot_damage = max(src.reboot_damage, 0)
 	else
-		if (src.rbootpm > 10)
+		if (src.reboot_damage > 10)
 			src.icon_state = "destroyed"
 			del(src.root)
 			src.root = new /datum/file/dir(  )
 			src.root.name = "root"
 			src.root.master = src
-			src.rbootpm = 0
+			src.reboot_damage = 0
 	if (src.icon_state == "destroyed")
 		src.status = "destroyed"
 		return
 	src.icon_state = "on"
 	src.status = "on"
-	src.b_lev = null
+	src.bios_level = null
 	spawn( 0 )
 		src.bios()
-		return
-	return
 
 /obj/signal/computer/proc/bios_done()
-	src.b_lev = null
+	src.bios_level = null
 	if ((src.sys_stat < 1 && src.status == "on"))
 		src.show_message("System Resource ERROR: Kernel not located. Shutting down...")
 		return stop()
-	return
 
 /obj/signal/computer/proc/bios(password in view(usr.client))
-	if (!( src.b_lev ))
+	if (!( src.bios_level ))
 		if (src.bios1)
-			if (src.b_p1)
-				src.b_lev = "1p"
+			if (src.bios_pass1)
+				src.bios_level = "1p"
 				src.show_message("Please type in the password for bios level 1.")
 			else
-				src.b_lev = "1"
+				src.bios_level = "1"
 				src.show_message("Looking for [src.bios1]")
 				spawn( 0 )
 					src.bios()
-					return
 		else
 			if (src.bios2)
 				src.show_message("Could not find bios level 1.")
-				if (src.b_p2)
-					src.b_lev = "2p"
+				if (src.bios_pass2)
+					src.bios_level = "2p"
 					src.show_message("Please type in the password for bios level 2.")
 				else
-					src.b_lev = "2"
+					src.bios_level = "2"
 					src.show_message("Looking for [src.bios2]")
 					spawn(0)
 						src.bios()
-						return
 			else
 				if (src.bios3)
 					src.show_message("Could not find bios level 1.")
 					src.show_message("Could not find bios level 2.")
-					if (src.b_p3)
-						src.b_lev = "3p"
+					if (src.bios_pass3)
+						src.bios_level = "3p"
 						src.show_message("Please type in the password for bios level 3.")
 					else
-						src.b_lev = "3"
+						src.bios_level = "3"
 						src.show_message("Looking for [src.bios3]")
 						spawn( 0 )
 							src.bios()
-							return
 				else
-					src.b_lev = "F"
+					src.bios_level = "F"
 					src.show_message("Could not find any bios data.")
 					spawn( 0 )
 						src.bios()
-						return
 	else
-		switch(src.b_lev)
+		switch(src.bios_level)
 			if("1p")
-				if ((password == src.b_p1 || !( src.b_p1 )))
-					src.b_lev = "1"
+				if ((password == src.bios_pass1 || !( src.bios_pass1 )))
+					src.bios_level = "1"
 					spawn( 0 )
 						src.bios()
-						return
 				else
 					if (src.bios2)
-						if (src.b_p2)
-							src.b_lev = "2p"
+						if (src.bios_pass2)
+							src.bios_level = "2p"
 							src.show_message("Please type in the password for bios level 2.")
 						else
-							src.b_lev = "2"
+							src.bios_level = "2"
 							src.show_message("Looking for [src.bios2]")
 							spawn( 0 )
 								src.bios()
-								return
 					else
 						if (src.bios3)
 							src.show_message("No entry for bios level 2")
-							if (src.b_p3)
-								src.b_lev = "3p"
+							if (src.bios_pass3)
+								src.bios_level = "3p"
 								src.show_message("Please type in the password for bios level 3.")
 							else
-								src.b_lev = "3"
+								src.bios_level = "3"
 								src.show_message("Looking for [src.bios3]")
 								spawn( 0 )
 									src.bios()
-									return
 						else
 							src.show_message("No entry for bios level 2")
 							src.show_message("No entry for bios level 3")
-							src.b_lev = "F"
+							src.bios_level = "F"
 							spawn( 0 )
 								src.bios()
-								return
 			if("2p")
-				if ((password == src.b_p2 || !( src.b_p2 )))
-					src.b_lev = "2"
+				if ((password == src.bios_pass2 || !( src.bios_pass2 )))
+					src.bios_level = "2"
 					spawn( 0 )
 						src.bios()
-						return
 				else
 					if (src.bios3)
-						if (src.b_p3)
-							src.b_lev = "3p"
+						if (src.bios_pass3)
+							src.bios_level = "3p"
 							src.show_message("Please type in the password for bios level 3.")
 						else
-							src.b_lev = "3"
+							src.bios_level = "3"
 							src.show_message("Looking for [src.bios3]")
 							spawn( 0 )
 								src.bios()
-								return
 					else
 						src.show_message("No entry for bios level 3")
-						src.b_lev = "F"
+						src.bios_level = "F"
 						spawn( 0 )
 							src.bios()
-							return
 			if("3p")
-				if ((password == src.b_p3 || !( src.b_p3 )))
-					src.b_lev = "3"
+				if ((password == src.bios_pass3 || !( src.bios_pass3 )))
+					src.bios_level = "3"
 					spawn( 0 )
 						src.bios()
-						return
 				else
-					src.b_lev = "F"
+					src.bios_level = "F"
 					spawn( 0 )
 						src.bios()
-						return
 			if("1")
 				var/datum/file/normal/F = src.parse2file(src.bios1)
 				if (istype(F, /datum/file/normal))
@@ -344,34 +316,31 @@
 				else
 					src.show_message("Could not find [src.bios1]")
 					if (src.bios2)
-						if (src.b_p2)
-							src.b_lev = "2p"
+						if (src.bios_pass2)
+							src.bios_level = "2p"
 							src.show_message("Please type in the password for bios level 2.")
 						else
-							src.b_lev = "2"
+							src.bios_level = "2"
 							src.show_message("Looking for [src.bios2]")
 							spawn( 0 )
 								src.bios()
-								return
 					else
 						if (src.bios3)
 							src.show_message("No entry for bios level 2")
-							if (src.b_p3)
-								src.b_lev = "3p"
+							if (src.bios_pass3)
+								src.bios_level = "3p"
 								src.show_message("Please type in the password for bios level 3.")
 							else
-								src.b_lev = "3"
+								src.bios_level = "3"
 								src.show_message("Looking for [src.bios3]")
 								spawn( 0 )
 									src.bios()
-									return
 						else
 							src.show_message("No entry for bios level 2")
 							src.show_message("No entry for bios level 3")
-							src.b_lev = "F"
+							src.bios_level = "F"
 							spawn( 0 )
 								src.bios()
-								return
 			if("2")
 				var/datum/file/normal/F = src.parse2file(src.bios2)
 				if (istype(F, /datum/file/normal))
@@ -380,21 +349,19 @@
 				else
 					src.show_message("Could not find [src.bios2]")
 					if (src.bios3)
-						if (src.b_p3)
-							src.b_lev = "3p"
+						if (src.bios_pass3)
+							src.bios_level = "3p"
 							src.show_message("Please type in the password for bios level 3.")
 						else
-							src.b_lev = "3"
+							src.bios_level = "3"
 							src.show_message("Looking for [src.bios3]")
 							spawn( 0 )
 								src.bios()
-								return
 					else
 						src.show_message("No entry for bios level 3")
-						src.b_lev = "F"
+						src.bios_level = "F"
 						spawn( 0 )
 							src.bios()
-							return
 			if("3")
 				var/datum/file/normal/F = src.parse2file(src.bios3)
 				if (istype(F, /datum/file/normal))
@@ -402,15 +369,12 @@
 					return src.bios_done()
 				else
 					src.show_message("Could not find [src.bios3]")
-					src.b_lev = "F"
+					src.bios_level = "F"
 					spawn( 0 )
 						src.bios()
-						return
 			if("F")
 				src.show_message("No valid boot processes found!")
 				return bios_done()
-			else
-	return
 
 /obj/signal/computer/proc/ex_trun_list(list/L,target,pos)
 	if (L.len <= target)
@@ -448,7 +412,6 @@
 		for(var/obj/items/scan_chip/S in src.bugs)
 			spawn( 0 )
 				S.typed(msg)
-				return
 		src.out_level = msg
 		for(var/mob/M in view(src.loc, 1))
 			if (M.using_computer == src||M.using_laptop == src)
@@ -465,7 +428,7 @@
 		sleep(1)
 
 /obj/signal/computer/proc/process(params)
-	if (src.b_lev)
+	if (src.bios_level)
 		bios(params)
 	else
 		if (src.status == "on")
@@ -473,7 +436,6 @@
 				for(var/obj/items/scan_chip/S in src.bugs)
 					spawn( 0 )
 						S.typed(params)
-						return
 
 				if (!( src.cur_prog ))
 					show_message("> [params]")
@@ -484,7 +446,6 @@
 		else
 			if (params == "boot")
 				boot()
-	return
 
 /obj/signal/computer/proc/parse_string(string in view(usr.client), source in view(usr.client))
 	var/list/t1 = list(  )
@@ -493,7 +454,6 @@
 		var/list/t2 = list(  )
 		t2 = splittext(x, " ")
 		src.execute(t2[1], jointext(t2 - t2[1], "[ascii2text(2)]"), source)
-	return
 
 /obj/signal/computer/proc/makedir(string in view(usr.client), datum/file/dir/D in view(usr.client))
 	var/list/L = splittext(string, "/")
@@ -535,7 +495,6 @@
 	if (F)
 		var/temp = F.buildparent()
 		return "[(temp ? "[temp]/" : "")][F]/"
-	return
 
 /obj/signal/computer/proc/get_file2(string in view(usr.client), datum/file/dir/directory in view(usr.client))
 
@@ -616,7 +575,6 @@
 		src.cur_log.text = "Log Startup Record Time [time2text(world.realtime, "MM/DD/YYYY hh:mm:ss")];"
 		t2.files += src.cur_log
 	src.cur_log.text += "[string];"
-	return
 
 /obj/signal/computer/attack_hand(user as mob in view(usr.client))
 	if (istype(src.lock, /obj/items/lock))
@@ -729,9 +687,9 @@
 												src.bios1 = "A:/boot.sys"
 												src.bios2 = "/sys/boot.sys"
 												src.bios3 = null
-												src.b_p1 = null
-												src.b_p2 = null
-												src.b_p3 = null
+												src.bios_pass1 = null
+												src.bios_pass2 = null
+												src.bios_pass3 = null
 										else
 											..()
 
@@ -786,7 +744,6 @@
 			spawn( 0 )
 				if (istype(t2, /datum/file/normal))
 					t2.execute(t7)
-				return
 		else
 			var/datum/file/normal/t1 = src.parse2file("/tmp/packet[S.id].dat")
 			if (t1)
@@ -836,7 +793,6 @@
 	else
 		if (src.line2 == source)
 			src.line2 = null
-	return
 
 /obj/signal/computer/cut()
 	if (src.line1)
@@ -845,10 +801,9 @@
 		src.line2.disconnectfrom(src)
 	src.line1 = null
 	src.line2 = null
-	return
 
 /obj/signal/computer/New()
-	src.lrbc = world.time
+	src.last_startup = world.time
 	..()
 	src.root = new /datum/file/dir(  )
 	src.root.name = "root"

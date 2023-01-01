@@ -10,11 +10,8 @@
 			spawn( 0 )
 				if (usr)
 					src.attack_by(usr.equipped, usr)
-				return
 	else
 		spawn( 0 )
 			if (usr)
 				src.attack_hand(usr)
-			return
 		..()
-	return

@@ -8,12 +8,10 @@ obj/vent
 					if ((source && (r_src.pos_status & 2 && A.pos_status & 1)))
 						spawn( 0 )
 							A.hear(msg, source, s_type, c_msg, src)
-							return
 					else
 						if ((source && (r_src.pos_status & 1 && (A.pos_status & 2 && (get_dist(src, A) <= 1 || src.loc == A.loc)))))
 							spawn( 0 )
 								A.hear(msg, source, s_type, c_msg, src)
-								return
 
 		traverse(mob/M as mob in view(usr.client))
 
@@ -83,7 +81,6 @@ obj/vent
 					usr << "<B>You enter the tiny vent system!</B>"
 					spawn( 1 )
 						src.traverse(usr, src)
-						return
 
 obj/vent/ac/DblClick()
 
@@ -109,7 +106,6 @@ obj/vent/ac/DblClick()
 		if (V)
 			spawn( 0 )
 				V.ac_airflow(src)
-				return
 
 obj/vent/heater/DblClick()
 
@@ -131,7 +127,6 @@ obj/vent/heater/DblClick()
 		src.represented.icon_state = "heater_[src.status]"
 		spawn( 0 )
 			src.spread(src)
-			return
 
 obj/vent
 	New()
@@ -168,13 +163,11 @@ obj/vent
 			if ((!( no_wind ) && (V && (!( V.ac_on ) || V.r_dir & (src.r_dir - 1)))))
 				spawn( 1 )
 					V.ac_airflow(src)
-					return
 		for(var/atom/movable/A in src.loc)
 			if(!isobj(A)||!ismob(A)) continue
 			if ((!( no_wind ) && (A.pos_status & 1 && (!( istype(A, /obj/vent) ) && !( A.anchored )))))
 				spawn( 1 )
 					src.traverse(A, src)
-					return
 
 	proc
 		relay_move(M as mob in view(usr.client), direction in view(usr.client))
@@ -195,11 +188,9 @@ obj/vent
 			if (V)
 				spawn( 1 )
 					V.traverse(M, src)
-					return
 				return 1
 			else
 				return 0
-			return
 
 		traverse(mob/M as mob in view(usr.client), obj/source as obj in view(usr.client))
 
@@ -222,7 +213,6 @@ obj/vent
 					if (V)
 						spawn( 1 )
 							V.traverse(M, src)
-							return
 						return 1
 					else
 						return 0
@@ -234,7 +224,6 @@ obj/vent
 				if (V)
 					spawn( 1 )
 						V.traverse(M, src)
-						return
 					return 1
 				else
 					return 0
@@ -263,7 +252,6 @@ obj/vent
 				if ((!( cooling ) && (V && V.represented.icon != 'vents1.dmi')))
 					spawn( 5 )
 						V.spread(src)
-						return
 
 client/Move(null in view(usr.client), direction in view(usr.client))
 

@@ -23,14 +23,12 @@
 				del(S)
 			else
 				src.line2.process_signal(S, src)
-			return
 	else
 		spawn( 0 )
 			if (!( src.line1 ))
 				del(S)
 			else
 				src.line1.process_signal(S, src)
-			return
 
 /obj/signal/wire/hyper/cut(force=0)
 	if (src.line1)

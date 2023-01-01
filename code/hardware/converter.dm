@@ -38,14 +38,12 @@ obj/signal
 						del(S)
 					else
 						src.line2.process_signal(S, src)
-					return
 			else
 				spawn( 10 )
 					if (!( src.line1 ))
 						del(S)
 					else
 						src.line1.process_signal(S, src)
-					return
 
 		cut()
 

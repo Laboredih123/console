@@ -16,15 +16,11 @@ obj/items
 				var/t = input(user, "Please type text to add:", "Pen and Paper", null)  as message
 				if (((get_dist(src, user) <= 1 || src.loc == user) && P.loc == user))
 					src.data += "[ascii2text(4)]\[w\][t] -[user]"
-				else
-					return
 			else
 				if (istype(P, /obj/items/inv_pen))
 					var/t = input(user, "Please type text to add:", "Pen and Paper", null)  as message
 					if (((get_dist(src, user) <= 1 || src.loc == user) && P.loc == user))
 						src.data += "[ascii2text(4)]\[i\]<font face=calligrapher>[t] -[user]</font>"
-					else
-						return
 
 		verb
 			label(msg as text)

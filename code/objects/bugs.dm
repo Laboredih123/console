@@ -10,7 +10,6 @@ obj/items
 				while(!( istype(T, /turf) ))
 					T = T.loc
 				return T
-			return
 
 		attack_by(obj/P in view(usr.client), mob/user in view(usr.client))
 
@@ -54,7 +53,6 @@ obj/items
 							S1.copy_to(S2)
 							spawn( 0 )
 								C.process_radio(S2,src)
-								return
 
 				del(S1)
 
@@ -91,7 +89,5 @@ obj/items
 								S1.copy_to(S2)
 								spawn( 0 )
 									C.process_radio(S2,src)
-									return
 
 					del(S1)
-					return

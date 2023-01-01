@@ -83,7 +83,6 @@ obj/items
 					src.cur_pick = P
 					spawn( 0 )
 						src.cur_pick.show(user)
-						return
 
 			insert_key(obj/items/key/K as obj in view(usr.client), mob/user in view(usr.client))
 

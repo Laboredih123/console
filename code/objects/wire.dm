@@ -54,7 +54,6 @@
 		usr << "Your done laying wire!"
 	else
 		usr << "You are not using this to lay wire..."
-	return
 
 /obj/items/wire/verb/thread()
 	set src in usr

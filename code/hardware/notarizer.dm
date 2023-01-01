@@ -48,7 +48,6 @@ obj/signal
 				spawn( 2 )
 					if (src.line1)
 						src.line1.process_signal(S, src)
-					return
 		proc/notorize(obj/items/paper/P in view(usr.client))
 
 			if (!( istype(src.file, /datum/file/normal) ))

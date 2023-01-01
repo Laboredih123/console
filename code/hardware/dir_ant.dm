@@ -51,8 +51,6 @@ obj/signal
 					src.line1.process_signal(S, src)
 				else
 					del(S)
-				return
-
 		process_signal(obj/signal/structure/S as obj in view(usr.client), obj/source as obj in view(usr.client))
 			..()
 			S.loc = null
@@ -101,7 +99,3 @@ obj/signal
 				src.line1 = src.control
 				src.control = temp
 				usr << "I/O line (Now: [src.line1]) swapped with control (Now: [src.control])!"
-
-
-
-

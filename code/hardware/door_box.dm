@@ -38,7 +38,7 @@ obj/signal
 				if (door_codes[doorcode_ref] != null)
 					src.keycode = door_codes[doorcode_ref]
 			..()
-			
+
 		proc
 			receive(code in view(usr.client))
 
@@ -50,12 +50,10 @@ obj/signal
 					S1.params = code
 					spawn( 0 )
 						src.line1.process_signal(S1, src)
-						return
 				else
 					if (src.keycode == code)
 						spawn( 0 )
 							src.connected.receive("0")
-							return
 
 		disconnectfrom(S as obj in view(usr.client))
 

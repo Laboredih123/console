@@ -40,7 +40,6 @@ obj/signal
 						spawn( 0 )
 							if (S2)
 								S2.process_signal(S1, src)
-							return
 						sleep(1)
 
 					del(S)
