@@ -24,7 +24,6 @@ obj/signal
 					return 1
 				else
 					return 0
-			return
 
 		disconnectfrom(obj/target in view(usr.client))
 			if (target == src.line1)

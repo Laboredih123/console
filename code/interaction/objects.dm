@@ -64,7 +64,6 @@ obj
 				src.suffix = null
 				user << "\blue <B>You have unequipped [src]!</B>"
 				return 1
-				return
 
 			add_equip(mob/user as mob in view(usr.client))
 
@@ -72,7 +71,6 @@ obj
 				src.suffix = "\[equipped\]"
 				user << "\blue <B>You have equipped [src]!</B>"
 				return 1
-				return
 
 			moved(user as mob in view(usr.client), old_loc as turf in view(usr.client))
 

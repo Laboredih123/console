@@ -131,7 +131,6 @@ obj/items
 						else
 							src.old_lay.disconnectfrom(S)
 							S.disconnectfrom(src.old_lay)
-							..()
 
 			update()
 

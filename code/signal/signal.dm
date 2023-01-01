@@ -102,7 +102,6 @@ obj/signal
 			..()
 	proc
 		process_signal(obj/S)
-			..()
 		orient_to(obj/target)
 		disconnectfrom(obj/source)
 		cut()

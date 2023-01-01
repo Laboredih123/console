@@ -829,7 +829,6 @@
 			return 1
 		else
 			return 0
-	return
 
 /obj/signal/computer/disconnectfrom(source as obj in view(usr.client))
 	if (src.line1 == source)
