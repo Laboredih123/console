@@ -64,40 +64,7 @@
 			S.cut()
 	..()
 
-/obj/signal/proc/swap_line()
-	set name = "swap"
-	set src in oview(1,usr)
-	var/l1 = input("What is the first line you want to swap?")as null|num
-	if(!l1) return
-	var/l2 = input("What is the second line you want to swap?")as null|num
-	if(!l2) return
-	if(l1 <= 0||l1 > max_lines||l2 <= 0||l2 > max_lines)
-		usr << "Line range was invalid, try again."
-		return
-	lines.Swap(l1,l2)
-	usr << "Swapped line [l1] (now: [lines["[l1]"]]) with line [l2] (now: [lines["[l2]"]])"
-
-/obj/signal/structure
-	var/tmp/life_time = 6
-	var/tmp/last_loc
-	var/tmp/timer_down = FALSE
-
-/obj/signal/structure/New()
-	..()
-	spawn(1)
-		LifeTimer()
-
-/obj/signal/structure/proc/LifeTimer()
-	if(timer_down) return
-	while(life_time&&!timer_down)
-		sleep(10)
-		if(loc!=last_loc)
-			life_time = 6
-			last_loc = loc
-		life_time--
-	if(!timer_down) del(src)
-
-/obj/signal/structure/attack_by(obj/W as obj in view(usr.client), mob/user as mob in view(usr.client))
+/obj/signal/attack_by(obj/W as obj in view(usr.client), mob/user as mob in view(usr.client))
 	if (istype(W, /obj/items/wirecutters))
 		if ((user.pos_status & 1 && (user.loc != src.loc || src.pos_status & 1)))
 			user << "You can only cut from inside a vent if the wire that is right above you!"
@@ -136,3 +103,36 @@
 			..()
 	else
 		..()
+
+/obj/signal/proc/swap_line()
+	set name = "swap"
+	set src in oview(1,usr)
+	var/l1 = input("What is the first line you want to swap?")as null|num
+	if(!l1) return
+	var/l2 = input("What is the second line you want to swap?")as null|num
+	if(!l2) return
+	if(l1 <= 0||l1 > max_lines||l2 <= 0||l2 > max_lines)
+		usr << "Line range was invalid, try again."
+		return
+	lines.Swap(l1,l2)
+	usr << "Swapped line [l1] (now: [lines["[l1]"]]) with line [l2] (now: [lines["[l2]"]])"
+
+/obj/signal/structure
+	var/tmp/life_time = 6
+	var/tmp/last_loc
+	var/tmp/timer_down = FALSE
+
+/obj/signal/structure/New()
+	..()
+	spawn(1)
+		LifeTimer()
+
+/obj/signal/structure/proc/LifeTimer()
+	if(timer_down) return
+	while(life_time&&!timer_down)
+		sleep(10)
+		if(loc!=last_loc)
+			life_time = 6
+			last_loc = loc
+		life_time--
+	if(!timer_down) del(src)
