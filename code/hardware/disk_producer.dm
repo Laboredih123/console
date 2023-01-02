@@ -2,9 +2,9 @@
 			name = "Disk Mass Production"
 			icon = 'icons/computer.dmi'
 			icon_state = "massdisk"
-			density = 1
+			density = TRUE
 			var/obj/items/disk/cur_disk
-			var/tmp/busy = 0
+			var/tmp/busy = FALSE
 
 /obj/signal/disk_producer/attack_hand(mob/user)
 	if(busy)
@@ -48,7 +48,7 @@
 		winshow(usr,"disk_producer",0)
 
 /obj/signal/disk_producer/verb/produce()
-	set hidden = 1
+	set hidden = TRUE
 	set src in oview(usr,1)
 	if(busy)
 		winset(usr,"disk_producer.warning_label","text=\"Error: Busy\"")
@@ -64,7 +64,7 @@
 			winset(usr,"disk_producer.warning_label","text=\"\"")
 		return
 
-	busy = 1
+	busy = TRUE
 	icon_state = "massdisk_working"
 	if(d_amount > 15) d_amount = 15
 	winshow(usr,"disk_producer",0)
@@ -93,4 +93,4 @@
 		B.loc = src.loc
 	icon_state = "massdisk"
 	usr << "Disk production done."
-	busy = 0
+	busy = FALSE

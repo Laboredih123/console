@@ -92,10 +92,10 @@ obj
 				if (get_dist(usr, src) > 1)
 					return
 				if (src.density)
-					src.density = 0
+					src.density = FALSE
 					src.icon_state = "s_[src.t_type]"
 				else
-					src.density = 1
+					src.density = TRUE
 					src.icon_state = "[src.t_type]"
 
 	stool

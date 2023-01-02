@@ -9,13 +9,13 @@
 	if(line_temp) line_temp.cut()
 
 /obj/signal/hub/mini
-	density = 0
+	density = FALSE
 	name = "Mini Hub"
 	max_signal = 10
 	icon = 'icons/mini.dmi'
 	icon_state = "hub"
-	unlockable = 1
-	place_locked = 0
+	unlockable = TRUE
+	place_locked = FALSE
 
 /obj/signal/hub/mini/New()
 	..()
@@ -32,10 +32,10 @@
 		verbs += /obj/signal/proc/drop_me
 
 /obj/signal/hub/router/mini
-	density = 0
+	density = FALSE
 	name = "Mini Router"
 	max_signal = 10
 	icon = 'icons/mini.dmi'
 	icon_state = "router"
-	unlockable = 1
-	place_locked = 0
+	unlockable = TRUE
+	place_locked = FALSE

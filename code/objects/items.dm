@@ -95,7 +95,7 @@ obj/items
 		name = "monitor"
 		icon = 'icons/computer.dmi'
 		icon_state = "monitor"
-		density = 1
+		density = TRUE
 	not_check
 		name = "notoriety check"
 		icon_state = "not_check"

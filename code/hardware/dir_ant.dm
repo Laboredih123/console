@@ -5,8 +5,8 @@ obj/signal
 		name = "dir ant"
 		icon = 'icons/computer.dmi'
 		icon_state = "dir_ant"
-		place_locked = 1
-		density = 1
+		place_locked = TRUE
+		density = TRUE
 		var/obj/signal/line1 = null
 		var/obj/signal/control = null
 		orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
@@ -21,9 +21,9 @@ obj/signal
 				if (!( src.control ))
 					user << "Connected to antenna:control"
 					src.control = target
-					return 1
+					return TRUE
 				else
-					return 0
+					return FALSE
 
 		d_accept()
 			return 1

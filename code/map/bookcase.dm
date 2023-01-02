@@ -3,8 +3,8 @@ obj
 		name = "bookcase"
 		icon = 'icons/misc.dmi'
 		icon_state = "bookcase"
-		opacity = 1
-		density = 1
+		opacity = TRUE
+		density = TRUE
 		var
 			secret = 0
 		verb/take()
@@ -24,12 +24,12 @@ obj
 				fname = replacetext(fname,"\\","")
 				if(secret&&fname == secret)
 					if(src.density)
-						src.density = 0
-						src.opacity = 0
+						src.density = FALSE
+						src.opacity = FALSE
 						src.icon_state = "bookcase_open"
 					else
-						src.density = 1
-						src.opacity = 1
+						src.density = TRUE
+						src.opacity = TRUE
 						src.icon_state = "bookcase"
 				if ((!( fname ) || !( fexists("books/[fname]") )))
 					return

@@ -2,7 +2,7 @@ atom
 	movable
 		var
 			tmp
-				has_teleported = 0
+				has_teleported = FALSE
 
 obj
 	signal
@@ -14,9 +14,9 @@ obj
 				destination
 				identifier
 				tmp
-					active = 0
-					charged = 0
-					primed = 0
+					active = FALSE
+					charged = FALSE
+					primed = FALSE
 					charged_destination
 				obj/signal/wire/line1
 			proc
@@ -26,9 +26,9 @@ obj
 					var/obj/signal/teleport_pad/T = locate("teleport_[dest]") in world
 					if(T && !ismob(T.loc) && T.identifier)
 						if(!T.active)
-						/*	T.active = 1
-							T.charged = 1
-							T.primed = 1
+						/*	T.active = TRUE
+							T.charged = TRUE
+							T.primed = TRUE
 							T.icon_state = "active_3"*/
 							for(var/atom/movable/A in src.loc)
 								spawn(1)
@@ -46,10 +46,10 @@ obj
 									if(A)
 										if(A.has_teleported) continue
 										A.loc = T.loc
-										A.has_teleported = 1
+										A.has_teleported = TRUE
 										spawn(10)
 											if(A)
-												A.has_teleported = 0
+												A.has_teleported = FALSE
 							if(loop)
 								T.Engage(0,src.identifier)
 							/*for(var/atom/movable/A in T.loc)
@@ -59,34 +59,34 @@ obj
 									if(A)
 										if(A.has_teleported) continue
 										A.loc = src.loc
-										A.has_teleported = 1
+										A.has_teleported = TRUE
 										spawn(4)
 											if(A)
-												A.has_teleported = 0
-							T.active = 0
-							T.charged = 0
-							T.primed = 0
+												A.has_teleported = FALSE
+							T.active = FALSE
+							T.charged = FALSE
+							T.primed = FALSE
 							T.icon_state = "active_0"
 							if(T.line1)
 								var/obj/signal/structure/S1 = new /obj/signal/structure( src )
 								S1.id = "teleporter"
 								S1.params = "incoming"
 								T.line1.process_signal(S1,src)*/
-					active = 0
-					charged = 0
-					primed = 0
+					active = FALSE
+					charged = FALSE
+					primed = FALSE
 					icon_state = "active_0"
 			orient_to(obj/target, user as mob)
 
 				if (get_dist(src,user) <= 1)
 					if (src.line1)
-						return 0
+						return FALSE
 					else
 						src.line1 = target
-						return 1
+						return TRUE
 				else
 					user << "You must be closer to connect a wire to that!"
-					return 0
+					return FALSE
 			process_signal(obj/signal/structure/S,atom/source)
 				..()
 				if(!S) return
@@ -99,7 +99,7 @@ obj
 				if(S.id == "prime")
 					primed = !primed
 					icon_state = "active_[primed]"
-					if(!primed) charged = 0
+					if(!primed) charged = FALSE
 					var/obj/signal/structure/S1 = new /obj/signal/structure( src )
 					S1.id = "teleporter"
 					S1.params = "primed_[primed]"
@@ -109,12 +109,12 @@ obj
 					if(primed)
 						var/obj/signal/teleport_pad/T = locate("teleport_[destination]") in world
 						icon_state = "active_2"
-						charged = 1
+						charged = TRUE
 						charged_destination = destination
 						if(T)
 							if(!T.active)
-								T.primed = 1
-								T.charged = 1
+								T.primed = TRUE
+								T.charged = TRUE
 								T.icon_state = "active_2"
 								T.charged_destination = identifier
 						var/obj/signal/structure/S1 = new /obj/signal/structure( src )
@@ -133,7 +133,7 @@ obj
 				if(S.id == "activate")
 					if(primed&&charged)
 						icon_state = "active_3"
-						active = 1
+						active = TRUE
 						Engage()
 						var/obj/signal/structure/S1 = new /obj/signal/structure( src )
 						S1.id = "teleporter"
@@ -141,9 +141,9 @@ obj
 						if(line1)
 							line1.process_signal(S1,src)
 				if(S.id == "deactivate")
-					primed = 0
-					charged = 0
-					active = 0
+					primed = FALSE
+					charged = FALSE
+					active = FALSE
 					icon_state = "active_0"
 					var/obj/signal/structure/S1 = new /obj/signal/structure( src )
 					S1.id = "teleporter"

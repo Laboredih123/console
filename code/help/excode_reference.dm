@@ -1,7 +1,7 @@
 mob
 	var
 		tmp
-			reference_shown = 0
+			reference_shown = FALSE
 	verb
 		ExCode_Reference()
 			set category = "Help"
@@ -10,7 +10,7 @@ mob
 				for(var/Reference/Excode/E in Reference_List)
 					src << output("<b><a href=\"byond://?src=\ref[E]&action=show\">[E.title]</a></b>","excode_reference.topic_grid:1,[yy]")
 					yy++
-				reference_shown = 1
+				reference_shown = TRUE
 			winshow(src,"excode_reference",1)
 
 
@@ -198,7 +198,3 @@ Reference
 			format = "uppertext;variable;other_variable"
 			arguments = "variable: The variable you want to change.;other_variable: The variable to dump the result."
 			extra_content = "The uppertext function allows you to change a string into its upper-case form."
-
-
-
-

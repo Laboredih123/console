@@ -19,32 +19,31 @@ obj
 			open()
 				if (src.operating)
 					return
-				src.operating = 1
+				src.operating = TRUE
 				flick("door1_0", src)
 				src.icon_state = "door0_0"
 				sleep(6)
-				src.density = 0
-				src.opacity = 0
+				src.density = FALSE
+				src.opacity = FALSE
 				sleep(2)
-				src.operating = 0
+				src.operating = FALSE
 
 
 			close()
 				set src in oview(1)
 				if ((src.operating || src.density))
 					return
-				src.operating = 1
+				src.operating = TRUE
 				flick("door0_1", src)
 				src.icon_state = "door1_1"
 				sleep(2)
-				src.density = 1
-				src.opacity = 1
+				src.density = TRUE
+				src.opacity = TRUE
 				sleep(6)
-				src.operating = 0
+				src.operating = FALSE
 		verb
 			access(code as text)
 				set src in oview(1)
 
 				if (src.connected)
 					src.connected.receive(code)
-

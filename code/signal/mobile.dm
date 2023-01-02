@@ -1,5 +1,5 @@
 /obj/signal
-	var/tmp/unlockable = 0
+	var/tmp/unlockable = FALSE
 
 /obj/signal/proc/get_me()
 	set name = "get"
@@ -22,10 +22,10 @@
 	src.loc = usr.loc
 
 /obj/signal/antenna
-	unlockable = 1
+	unlockable = TRUE
 
 /obj/signal/dir_ant
-	unlockable = 1
+	unlockable = TRUE
 
 /obj/signal/rackmount
-	unlockable = 1
+	unlockable = TRUE

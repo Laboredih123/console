@@ -17,7 +17,7 @@
 		new /obj/items/pen( src.mob )
 		new /obj/items/GPS( src.mob )
 		src.mob.save_version = "[n_version][n_sub]"
-		//src.mob.saving = "yes"
+		//src.mob.saving = TRUE
 	else
 		var/savefile/F = new("saves/players/[src.ckey].sav")
 		F >> src.mob
@@ -27,7 +27,7 @@
 			new /obj/items/wirecutters( src.mob )
 		if (!( locate(/obj/items/GPS, src.mob) ))
 			new /obj/items/GPS( src.mob )
-		//src.mob.saving = "yes"
+		//src.mob.saving = TRUE
 	if((ckey in admins))
 		for(var/V in typesof(/mob/admin/verb))
 			mob.verbs += V

@@ -1,12 +1,12 @@
 mob
 	name = "mob"
 	icon = 'icons/asdf.dmi'
-	density = 1
+	density = TRUE
 	layer = 4
 	var
 		obj/items/equipped = null
 		echo2console = 1
-		saving = 0
+		saving = FALSE
 		tmp/obj/signal/computer
 			using_computer = null
 			using_laptop = null

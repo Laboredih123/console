@@ -1,5 +1,5 @@
-/atom/var/initialized = 0
+/atom/var/initialized = FALSE
 
 /atom/proc/Initialize()
-    initialized = 1
+    initialized = TRUE
     return

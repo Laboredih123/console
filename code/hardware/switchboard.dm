@@ -3,7 +3,7 @@ obj/signal
 		name = "switchboard"
 		icon = 'icons/computer.dmi'
 		icon_state = "sboard"
-		density = 1
+		density = TRUE
 
 		var/obj/signal/line1 = null
 		var/obj/signal/line2 = null

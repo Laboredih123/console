@@ -3,8 +3,8 @@ obj/signal
 		name = "antenna"
 		icon = 'icons/computer.dmi'
 		icon_state = "antenna"
-		density = 1
-		place_locked = 1
+		density = TRUE
+		place_locked = TRUE
 		var/broadcasting = null
 		var/obj/signal/line1 = null
 		var/obj/signal/control = null
@@ -57,15 +57,15 @@ obj/signal
 			if (src.broadcasting)
 				del(S)
 				return
-			src.broadcasting = 1
+			src.broadcasting = TRUE
 			if (source == src.line1)
 				for(var/obj/signal/C in world)
 					if ((get_dist(C.loc, src.loc) <= 50 && C != src))
-						var/a = 0
+						var/a = FALSE
 						var/list/my_ekeys = params2list(src.e_key)
 						for(var/E in my_ekeys)
 							if(C.r_accept(E,src))
-								a = 1
+								a = TRUE
 						if (a)
 							var/obj/signal/structure/S1 = new /obj/signal/structure()
 							S.copy_to(S1)
@@ -83,8 +83,8 @@ obj/signal
 					var/list/my_ekeys = params2list(S.params)
 					if(my_ekeys.len > 5) my_ekeys.Cut(6)
 					for(var/E in my_ekeys)
-						var/b = 0
-						if(my_ekeys.Find(E) < my_ekeys.len) b = 1
+						var/b = FALSE
+						if(my_ekeys.Find(E) < my_ekeys.len) b = TRUE
 						E = text2num(E)
 						E = round(min(max(1, E), 65000))
 						number += "[E]"

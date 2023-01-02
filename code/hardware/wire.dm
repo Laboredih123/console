@@ -1,7 +1,7 @@
 /obj/signal/wire
 	name = "wire"
 	icon = 'icons/wire.dmi'
-	anchored = 1
+	anchored = TRUE
 
 	var/s_tag = null
 	var/direction = null

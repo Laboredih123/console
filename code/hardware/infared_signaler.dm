@@ -4,9 +4,9 @@
 /mob/Move()
 	. = ..()
 	if(.)
-		var/fb = 0
+		var/fb = FALSE
 		for(var/obj/infared/beam/B in src.loc)
-			fb = 1
+			fb = TRUE
 			if(in_beam != B.master)
 				if(B.master)
 					B.master.Signal()
@@ -14,14 +14,14 @@
 		if(!fb) in_beam = null
 
 /obj/signal/infared
-	density = 1
+	density = TRUE
 	name = "Infared Signaler"
 	desc = "Emits a beam in any given direction and sends a signal when the beam is passed."
 	icon = 'icons/infared.dmi'
 
 	var/range = 5
-	var/active = 0
-	var/beam_hidden = 0
+	var/active = FALSE
+	var/beam_hidden = FALSE
 	var/list/beams = list()
 	var/obj/signal/line1
 
@@ -101,9 +101,9 @@
 /obj/signal/infared/verb/equip()
 	set src in usr
 	set category = "items"
-	var/s = 0
+	var/s = FALSE
 	if (usr.equipped)
-		if(usr.equipped == src) s = 1
+		if(usr.equipped == src) s = TRUE
 		if(istype(usr.equipped,/obj/items))
 			usr.equipped.rem_equip(usr)
 		else
@@ -150,11 +150,11 @@
 	if(active)
 		for(var/obj/infared/beam/B in beams)
 			del(B)
-		active = 0
+		active = FALSE
 		icon_state = ""
 	else
 		icon_state = "on"
-		active = 1
+		active = TRUE
 		var/r = 1
 		var/xx = src.x
 		var/yy = src.y

@@ -10,7 +10,7 @@ obj
 		name = "table"
 		icon = 'icons/table.dmi'
 		icon_state = "alone"
-		density = 1
+		density = TRUE
 		var/t_type = null
 		layer = TURF_LAYER
 		secret
@@ -19,21 +19,21 @@ obj
 		name = "trashcan"
 		icon = 'icons/misc.dmi'
 		icon_state = "trashcan"
-		density = 1
+		density = TRUE
 
 
 	window
 		name = "window"
 		icon = 'icons/misc.dmi'
 		icon_state = "window"
-		density = 1
+		density = TRUE
 		layer = TURF_LAYER
 
 	plants
 		name = "potted plant"
 		icon = 'icons/objects.dmi'
 		icon_state = "s_plant"
-		density = 1
+		density = TRUE
 		large
 			name = "large plant"
 			icon_state = "l_plant"
@@ -47,8 +47,8 @@ obj
 		name = "boxrack"
 		icon = 'icons/objects.dmi'
 		icon_state = "box_rack"
-		opacity = 1
-		density = 1
+		opacity = TRUE
+		density = TRUE
 	bulletin
 		name = "bulletin board"
 		icon = 'icons/objects.dmi'
@@ -64,13 +64,13 @@ obj
 		name = "copier"
 		icon = 'icons/computer.dmi'
 		icon_state = "copier"
-		density = 1
+		density = TRUE
 	door
 		name = "door"
 		icon = 'icons/door.dmi'
 		icon_state = "door1_1"
-		opacity = 1
-		density = 1
+		opacity = TRUE
+		density = TRUE
 		var/obj/door/connected = null
 		var/operating = null
 	electronic
@@ -81,7 +81,7 @@ obj
 		name = "filecabinet"
 		icon = 'icons/objects.dmi'
 		icon_state = "file_cabinet"
-		density = 1
+		density = TRUE
 
 	shredder
 		name = "shredder"

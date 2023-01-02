@@ -3,9 +3,9 @@ obj/signal
 		name = "printer"
 		icon = 'icons/computer.dmi'
 		icon_state = "printer"
-		density = 1
+		density = TRUE
 		var/obj/signal/line1 = null
-		var/printing = null
+		var/printing = FALSE
 		verb/paper()
 			set src in oview(1)
 
@@ -64,13 +64,13 @@ obj/signal
 						if (src.line1)
 							src.line1.process_signal(S, src)
 				else
-					src.printing = 1
+					src.printing = TRUE
 					var/obj/items/paper/P = new /obj/items/paper(  )
 					P.data = "[ascii2text(4)]\[t\][S.cur_file.text]"
 					P.name = "paper- '[S.params]'"
 					sleep(30)
 					P.loc = src.loc
-					src.printing = null
+					src.printing = FALSE
 					S.id = "pr_success"
 					S.dest_id = S.source_id
 					S.source_id = "printer"

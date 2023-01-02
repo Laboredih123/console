@@ -59,8 +59,8 @@
 	name = "Window Shutter"
 	icon = 'icons/shutter.dmi'
 	icon_state = "closed"
-	density = 1
-	opacity = 1
+	density = TRUE
+	opacity = TRUE
 	layer = OBJ_LAYER-1
 
 	var/pcode
@@ -68,9 +68,9 @@
 /obj/shutter/proc/Open(var/force)
 	if(icon_state == "open"||force==2)
 		icon_state = "closed"
-		opacity = 1
-		density = 1
+		opacity = TRUE
+		density = TRUE
 	else
 		icon_state = "open"
-		opacity = 0
-		density = 0
+		opacity = FALSE
+		density = FALSE

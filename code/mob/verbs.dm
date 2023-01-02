@@ -82,25 +82,25 @@
 			msg = copytext(msg, 4, length(msg) + 1)
 			var/T = get_step(src, src.dir)
 			var/L = view(usr, 1)
-			var/see = 1
+			var/see = TRUE
 			if (istype(T, /turf))
 				for(var/atom/A in T)
 					if (A.opacity)
-						see = null
+						see = FALSE
 
 			else
-				see = null
+				see = FALSE
 			var/list/I = list(  )
 			if (see)
-				see = 1
+				see = TRUE
 				var/U = get_step(T, src.dir)
 				if (istype(U, /turf))
 					for(var/atom/A in U)
 						if (A.opacity)
-							see = null
+							see = FALSE
 
 				else
-					see = null
+					see = FALSE
 				if (see)
 					I = view(U, 1)
 				else
@@ -144,7 +144,7 @@
 			winset(src,"computer_window.computer_input","focus=true")
 
 /mob/verb/command(params as text)
-	set hidden = 1
+	set hidden = TRUE
 	set name = ">"
 	var/obj/signal/computer/using
 	switch(winget(src,"computer_window.operating_tab","current-tab"))

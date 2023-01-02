@@ -467,39 +467,39 @@ datum/task/proc/parse()
 					return
 				if("if")
 					if (t1.len >= 5)
-						var/go_on = null
+						var/go_on = FALSE
 
 						switch(t1[3])
 							if(">=")
 								if (text2num(src.get_data(t1[2])) >= text2num(get_data(t1[4])))
-									go_on = 1
+									go_on = TRUE
 							if("<=")
 								if (text2num(src.get_data(t1[2])) <= text2num(get_data(t1[4])))
-									go_on = 1
+									go_on = TRUE
 							if(">")
 								if (text2num(src.get_data(t1[2])) > text2num(get_data(t1[4])))
-									go_on = 1
+									go_on = TRUE
 							if("<")
 								if (text2num(src.get_data(t1[2])) < text2num(get_data(t1[4])))
-									go_on = 1
+									go_on = TRUE
 							if("==")
 								var/datum/file/v1 = src.get_data(t1[2])
 								var/datum/file/v2 = get_data(t1[4])
 								if ((istype(v1, /datum/file) && istype(v2, /datum/file)))
 									if (v1.compare(v2))
-										go_on = 1
+										go_on = TRUE
 								else
 									if (v1 == v2)
-										go_on = 1
+										go_on = TRUE
 							if("!=","<>")
 								var/datum/file/v1 = src.get_data(t1[2])
 								var/datum/file/v2 = get_data(t1[4])
 								if ((istype(v1, /datum/file) && istype(v2, /datum/file)))
 									if (!( v1.compare(v2) ))
-										go_on = 1
+										go_on = TRUE
 								else
 									if (v1 != v2)
-										go_on = 1
+										go_on = TRUE
 						if (go_on)
 							var/cnt = get_label("[t1[5]]", goto_array)
 							if (cnt > 0)

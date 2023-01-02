@@ -153,17 +153,17 @@ mob
 				new no(usr.loc)
 			Reboot()
 				set category = "Admin"
-				world << "<b><font color=red>Rebooting Initiated</font></b>"				
+				world << "<b><font color=red>Rebooting Initiated</font></b>"
 				SaveLabs()
-				world << "<b><font color=red>Labs Saved</font></b>"				
+				world << "<b><font color=red>Labs Saved</font></b>"
 				// Save PLayers
 				for(var/mob/M in world)
 					if (M.saving == "yes")
 						if(M.ckey != null)
 							var/savefile/F = new /savefile( "saves/players/[M.ckey].sav" )
 							F << M
-				world << "<b><font color=red>Players Saved</font></b>"				
-				world << "<b><font color=red>Rebooting in 5 seconds</font></b>"				
+				world << "<b><font color=red>Players Saved</font></b>"
+				world << "<b><font color=red>Rebooting in 5 seconds</font></b>"
 				sleep(50)
 				world.Reboot()
 			Summon(mob/M as mob in world)
@@ -232,7 +232,7 @@ mob
 		verb
 			Save_Lab()
 				set category = "Host"
-				set background = 1
+				set background = TRUE
 				var/list/save_areas = list()
 				for(var/area/save_location/S in world)
 					save_areas += S
@@ -256,5 +256,3 @@ mob
 			Load_All_Labs()
 				set category = "Host"
 				LoadLabs()
-
-

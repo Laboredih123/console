@@ -22,15 +22,15 @@
 	icon_state = "1"
 	name = "Conveyor Belt"
 	icon = 'icons/conveyor_belt.dmi'
-	var/tmp/active = 0
-	var/tmp/deleting = 0
-	var/tmp/full_delete = 0
+	var/tmp/active = FALSE
+	var/tmp/deleting = FALSE
+	var/tmp/full_delete = FALSE
 	var/delay = 5
 	var/list/connected = list()
 
 /obj/signal/Conveyor/Belt/attack_by(obj/using, mob/user)
 	if(istype(using,/obj/items/wrench))
-		full_delete = 1
+		full_delete = TRUE
 		del(src)
 	if(istype(using,/obj/items/screwdriver))
 		del(src)
@@ -54,11 +54,11 @@
 		..()
 
 /obj/signal/Conveyor/Belt/Del()
-	deleting = 1
+	deleting = TRUE
 	for(var/obj/signal/Conveyor/Belt/B in connected)
 		if(full_delete)
 			if(B.deleting) continue
-			B.full_delete = 1
+			B.full_delete = TRUE
 			del(B)
 		else
 			B.RemoveBelt(src)
@@ -86,9 +86,9 @@
 
 /obj/signal/Conveyor/Belt/proc/Activate()
 	if(active) return
-	active = 1
+	active = TRUE
 	spawn(20)
-		active = 0
+		active = FALSE
 	PushTo(null)
 
 /obj/signal/Conveyor/Belt/proc/PushTo(obj/signal/Conveyor/pushed_from,push_delay)
@@ -122,10 +122,10 @@
 	if (get_dist(src,user) <= 1)
 		if (src.connected.len >= 2)
 			user << "That belt has no free connection ports!"
-			return 0
+			return FALSE
 		else
 			src.connected += target
-			return 1
+			return TRUE
 
 /obj/signal/Conveyor/Belt/process_signal(obj/signal/structure/S, obj/source)
 	..()

@@ -60,7 +60,7 @@
 	icon_state = "red"
 	layer = TURF_LAYER+1
 	var/owner
-	var/auto_save = 1
+	var/auto_save = TRUE
 
 /area/save_location/New()
 	..()
@@ -202,11 +202,11 @@
 
 /mob/Login()
 	..()
-	var/has_lab = 0
+	var/has_lab = FALSE
 	for(var/area/save_location/L in world)
 		if(ckey(L.owner) == src.ckey)
 			my_labs += L
-			has_lab = 1
+			has_lab = TRUE
 			for(var/V in typesof(/mob/labcontrol/proc))
 				src.verbs += V
 	if(has_lab)

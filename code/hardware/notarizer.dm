@@ -3,7 +3,7 @@ obj/signal
 		name = "notarizer"
 		icon = 'icons/computer.dmi'
 		icon_state = "notorizer"
-		density = 1
+		density = TRUE
 		var/obj/signal/line1 = null
 		attack_by(obj/items/P in view(usr.client), user in view(usr.client))
 			if (istype(P, /obj/items/paper))

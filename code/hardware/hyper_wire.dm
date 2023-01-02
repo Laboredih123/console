@@ -48,7 +48,7 @@
 
 /obj/items/wire/hyper/moved(mob/user, turf/old_loc)
 	if ((src.laying && (src.old_lay && get_dist(src.old_lay, user) > 1)))
-		src.laying = 0
+		src.laying = FALSE
 	if ((src.laying && src.amount >= 1))
 		var/obj/signal/wire/hyper/W = new /obj/signal/wire/hyper( user.loc )
 		if (user.pos_status & 1)
@@ -64,11 +64,11 @@
 			src.old_lay = W
 			src.amount--
 			if (src.amount <= 0)
-				src.laying = 0
+				src.laying = FALSE
 				del(src)
 				return
 			src.update()
 		else
 			del(W)
 			user << "<B>You were unable to connect the wire to the target!</B>"
-			src.laying = 0
+			src.laying = FALSE

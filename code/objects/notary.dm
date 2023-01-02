@@ -15,7 +15,7 @@ obj/items
 			src.id = t
 
 		proc/check(obj/items/paper/P in view(usr.client), user in view(usr.client))
-			var/yes = 0
+			var/yes = FALSE
 			if (findtext(P.data, "[ascii2text(4)]", 1, null))
 				var/L = splittext(P.data, "[ascii2text(4)]")
 				for(var/t in L)
@@ -24,7 +24,7 @@ obj/items
 						var/act_t = copytext(t, 4, length(t) + 1)
 						if (t_id == "\[n\]")
 							if (src.id == (copytext(act_t, findtext(act_t, ";", 1, null) + 1, length(act_t) + 1)))
-								yes = 1
+								yes = TRUE
 								user << "\blue Notoriety found as name: [copytext(act_t, 1, findtext(act_t, ";", 1, null))]"
 
 			if (!( yes ))

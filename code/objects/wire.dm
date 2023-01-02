@@ -3,7 +3,7 @@
 	name = "wire"
 	icon_state = "item_wire"
 	var/amount = 1
-	var/laying = 0
+	var/laying = FALSE
 	var/obj/signal/old_lay = null
 	var/w_color = "black"
 	var/scolor = "black"
@@ -50,7 +50,7 @@
 
 /obj/items/wire/verb/stop_laying()
 	if (src.laying)
-		src.laying = 0
+		src.laying = FALSE
 		usr << "Your done laying wire!"
 	else
 		usr << "You are not using this to lay wire..."
@@ -76,7 +76,7 @@
 
 /obj/items/wire/moved(mob/user as mob in view(usr.client), turf/old_loc as turf in view(usr.client))
 	if ((src.laying && (src.old_lay && get_dist(src.old_lay, user) > 1)))
-		src.laying = 0
+		src.laying = FALSE
 	if ((src.laying && (src.amount >= 1 && src.old_lay)))
 		var/obj/signal/wire/W = new /obj/signal/wire( user.loc )
 		if (src.color)
@@ -104,14 +104,14 @@
 			src.old_lay = W
 			src.amount--
 			if (src.amount <= 0)
-				src.laying = 0
+				src.laying = FALSE
 				del(src)
 				return
 			src.update()
 		else
 			del(W)
 			user << "<B>You were unable to connect the wire to the target!</B>"
-			src.laying = 0
+			src.laying = FALSE
 
 /obj/items/wire/proc/wire(mob/target as mob|obj|turf|area in view(usr.client), mob/user as mob in view(usr.client))
 	var/obj/signal/S = target
@@ -121,11 +121,11 @@
 		user << "You must be on the same tile to bridge a connection into the vents."
 		return
 	if (!( src.laying ))
-		src.laying = 1
+		src.laying = TRUE
 		src.old_lay = S
 		moved(user, null)
 	else
-		src.laying = 0
+		src.laying = FALSE
 		if(S)
 			if ((src.old_lay.orient_to(S) && S.orient_to(src.old_lay, user)))
 				user << "Your done laying wire!"

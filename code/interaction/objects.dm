@@ -25,9 +25,9 @@ obj
 			equip()
 				set src in usr
 				set category = "items"
-				var/s = 0
+				var/s = FALSE
 				if (usr.equipped)
-					if(usr.equipped == src) s = 1
+					if(usr.equipped == src) s = TRUE
 					if(istype(usr.equipped,/obj/items))
 						usr.equipped.rem_equip(usr)
 					else

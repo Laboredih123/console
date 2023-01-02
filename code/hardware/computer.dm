@@ -1,7 +1,7 @@
 /obj/signal/computer
 	name = "computer"
 	icon = 'icons/computer.dmi'
-	density = 1
+	density = TRUE
 
 	var/datum/file/dir/root = null
 	var/obj/items/disk/disk = null

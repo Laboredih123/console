@@ -3,13 +3,13 @@ mob
 		tmp
 			obj/items/concealed_wire/con_using
 			obj/signal/concealed_wire/p_wire
-			viewing_under = 0
+			viewing_under = FALSE
 client
 	Move()
 		..()
 		if(mob.viewing_under)
 			images = list()
-			mob.viewing_under = 0
+			mob.viewing_under = FALSE
 
 obj
 	items
@@ -35,7 +35,7 @@ obj
 							var/obj/signal/concealed_wire/child = new(user.loc)
 							child.connected_terminal = user.p_wire
 							user.p_wire.connected_terminal = child
-							child.working = 1
+							child.working = TRUE
 							child.connected_wires = user.p_wire.connected_wires.Copy(1,0)
 							child.connected_wires -= child.loc
 							child.connected_wires += user.p_wire.loc
@@ -52,8 +52,8 @@ obj
 					user << "You stop placing underground wire and place a secondary terminal."
 					var/obj/signal/concealed_wire/child = new(user.loc)
 					child.connected_terminal = user.p_wire
-					user.p_wire.working = 1
-					child.working = 1
+					user.p_wire.working = TRUE
+					child.working = TRUE
 					user.p_wire.connected_terminal = child
 					child.connected_wires = user.p_wire.connected_wires.Copy(1,0)
 					child.connected_wires -= child.loc
@@ -77,7 +77,7 @@ obj
 			verb
 				view_wires()
 					set src in oview(usr,1)
-					usr.viewing_under = 1
+					usr.viewing_under = TRUE
 					usr << "Viewing the wiring setup for [src]"
 					usr.client.images = list()
 					for(var/turf/T in connected_wires)
@@ -88,7 +88,7 @@ obj
 					name = "underground wiring terminal - '[T]'"
 			var
 				tmp
-					working = 0
+					working = FALSE
 					obj/signal/line1
 					list
 						connected_wires = list()
@@ -106,7 +106,7 @@ obj
 			process_signal(obj/signal/structure/S,obj/source)
 				..()
 				if(isnull(S))return
-				
+
 				S.loc = src.loc
 				S.master = src
 				if(line1)

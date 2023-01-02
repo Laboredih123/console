@@ -13,7 +13,7 @@ obj/signal
 		var/obj/signal/line1 = null
 
 		var
-			open_lab = 0
+			open_lab = FALSE
 		verb
 			open()
 				set src in usr.loc

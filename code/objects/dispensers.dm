@@ -14,8 +14,8 @@ obj
 				var/I = new O.type( src.loc )
 				if(istype(I,/obj/signal))
 					var/obj/signal/T = I
-					T.place_locked = 0
-					T.density = 0
+					T.place_locked = FALSE
+					T.density = FALSE
 					T.verbs += /obj/signal/proc/get_me
 					T.verbs += /obj/signal/proc/drop_me
 				usr << "[I] has been created!"
@@ -52,8 +52,8 @@ obj
 			var/I = new O.type( src.loc )
 			if(istype(I,/obj/signal))
 				var/obj/signal/T = I
-				T.place_locked = 0
-				T.density = 0
+				T.place_locked = FALSE
+				T.density = FALSE
 				T.verbs += /obj/signal/proc/get_me
 				T.verbs += /obj/signal/proc/drop_me
 			usr << "[I] has been created!"

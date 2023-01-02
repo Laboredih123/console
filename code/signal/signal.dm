@@ -6,10 +6,10 @@
 	var/source_id
 	var/atom/master
 	var/datum/file/normal/file
-	var/place_locked = 1
+	var/place_locked = TRUE
 	var/list/lines = list()
 	var/tmp/max_lines = 1
-	var/tmp/swapable = 0
+	var/tmp/swapable = FALSE
 	var/tmp/obj/signal/originator
 	var/tmp/signal_hit = 0
 	var/tmp/max_signal = 150
@@ -80,7 +80,7 @@
 /obj/signal/structure
 	var/tmp/life_time = 6
 	var/tmp/last_loc
-	var/tmp/timer_down = 0
+	var/tmp/timer_down = FALSE
 
 /obj/signal/structure/New()
 	..()
@@ -122,13 +122,13 @@
 		if(src.unlockable)
 			if(place_locked)
 				user << "You unlock [src.name] from its place."
-				place_locked = 0
-				density = 0
+				place_locked = FALSE
+				density = FALSE
 				src.verbs += /obj/signal/proc/get_me
 				src.verbs += /obj/signal/proc/drop_me
 			else
 				user << "You lock [src.name] in place."
-				place_locked = 1
+				place_locked = TRUE
 				density = initial(density)
 				src.verbs -= /obj/signal/proc/get_me
 				src.verbs -= /obj/signal/proc/drop_me

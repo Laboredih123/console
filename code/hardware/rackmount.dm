@@ -2,7 +2,7 @@
 	icon = 'icons/rackmount.dmi'
 	icon_state = "0"
 	name = "Rackmount"
-	density = 1
+	density = TRUE
 	var/max_mounts = 4
 	var/list/mounts = list()
 	var/list/connected = list()

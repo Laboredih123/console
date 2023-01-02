@@ -31,7 +31,7 @@ obj/signal
 				spawn( 0 )
 					if (src.line1)
 						src.line1.process_signal(S1, src)
-			src.state = 0
+			src.state = FALSE
 			src.icon_state = "intercom"
 
 		disconnectfrom(S as obj in view(usr.client))
@@ -71,7 +71,7 @@ obj/signal
 				del(S)
 			else
 				if(S.params == "toggle")
-					src.state = 1
+					src.state = TRUE
 					src.icon_state = "intercom_1"
 				del(S)
 				return null
@@ -79,6 +79,6 @@ obj/signal
 
 		verb/talk()
 			set src in oview(1)
-			src.state = 1
+			src.state = TRUE
 			usr << "Please speak into the intercom."
 			src.icon_state = "intercom_1"

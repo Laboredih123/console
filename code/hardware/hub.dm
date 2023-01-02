@@ -3,8 +3,8 @@ obj/signal
 		name = "hub"
 		icon = 'icons/computer.dmi'
 		icon_state = "hub"
-		density = 1
-		place_locked = 1
+		density = TRUE
+		place_locked = TRUE
 		var/offset = 0
 		var/multi = 20
 		var/s_id = "router"

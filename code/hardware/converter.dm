@@ -3,8 +3,8 @@ obj/signal
 		name = "converter"
 		icon = 'icons/computer.dmi'
 		icon_state = "converter"
-		density = 1
-		place_locked = 1
+		density = TRUE
+		place_locked = TRUE
 		var/obj/signal/line1 = null
 		var/obj/signal/line2 = null
 		orient_to(obj/target in view(usr.client),mob/user)

@@ -44,7 +44,7 @@ obj/vent
 				close()
 					set src in oview(1)
 
-					src.open = 0
+					src.open = FALSE
 					src.icon_state = "trap_closed"
 					src.represented.icon_state = "trap_closed"
 
@@ -72,7 +72,7 @@ obj/vent
 					usr.see_invisible = 99
 					usr.sight |= SEE_SELF
 					usr.layer = 22
-					usr.density = 0
+					usr.density = FALSE
 					if (usr.client)
 						for(var/obj/vent/V in world)
 							usr.client.images -= V.represented

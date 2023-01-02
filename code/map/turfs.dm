@@ -7,8 +7,8 @@ turf
 	wall
 		name = "wall"
 		icon_state = "wall"
-		opacity = 1
-		density = 1
+		opacity = TRUE
+		density = TRUE
 
 	sand
 		icon = 'icons/misc.dmi'
@@ -16,4 +16,4 @@ turf
 	water
 		icon = 'icons/misc.dmi'
 		icon_state = "water"
-		density = 1
+		density = TRUE
