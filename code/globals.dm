@@ -1,9 +1,8 @@
-var
-	n_version = "N2.3"
-	n_sub = ".1R"
-	list/rsc_fonts = list('fonts/CALLIGRA.ttf')
-	list/door_codes = list()
-	motd = ""
+var/n_version = "N2.3"
+var/n_sub = ".1R"
+var/list/rsc_fonts = list('fonts/CALLIGRA.ttf')
+var/list/door_codes = list()
+var/motd = ""
 
 /world
 	mob = /mob

@@ -15,7 +15,7 @@
 		new /obj/items/watch( src.mob )
 		new /obj/items/toolbox( src.mob )
 		new /obj/items/pen( src.mob )
-		new /obj/items/GPS( src.mob )
+		new /obj/items/gps( src.mob )
 		src.mob.save_version = "[n_version][n_sub]"
 		//src.mob.saving = TRUE
 	else
@@ -25,8 +25,8 @@
 			del(old_mob)
 		if (!( locate(/obj/items/wirecutters, src.mob) ))
 			new /obj/items/wirecutters( src.mob )
-		if (!( locate(/obj/items/GPS, src.mob) ))
-			new /obj/items/GPS( src.mob )
+		if (!( locate(/obj/items/gps, src.mob) ))
+			new /obj/items/gps( src.mob )
 		//src.mob.saving = TRUE
 	if((ckey in admins))
 		for(var/V in typesof(/mob/admin/verb))

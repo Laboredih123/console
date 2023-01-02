@@ -1,5 +1,4 @@
-/obj/signal
-	var/tmp/unlockable = FALSE
+/obj/signal/var/tmp/unlockable = FALSE
 
 /obj/signal/proc/get_me()
 	set name = "get"

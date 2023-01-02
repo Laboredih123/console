@@ -53,30 +53,11 @@ obj
 		name = "bulletin board"
 		icon = 'icons/objects.dmi'
 		icon_state = "bullitin"
-	conveyor
-		name = "conveyor"
-		icon = 'icons/objects.dmi'
-		icon_state = "convey"
-		electronic
-			name = "electronic conveyor"
-			icon_state = "e_convey"
 	copier
 		name = "copier"
 		icon = 'icons/computer.dmi'
 		icon_state = "copier"
 		density = TRUE
-	door
-		name = "door"
-		icon = 'icons/door.dmi'
-		icon_state = "door1_1"
-		opacity = TRUE
-		density = TRUE
-		var/obj/door/connected = null
-		var/operating = null
-	electronic
-		name = "electronic"
-		icon = 'icons/objects.dmi'
-		icon_state = "e_convey"
 	filecabinet
 		name = "filecabinet"
 		icon = 'icons/objects.dmi'
