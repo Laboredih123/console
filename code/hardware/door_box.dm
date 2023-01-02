@@ -70,10 +70,10 @@ obj/signal
 
 			if (target.loc == src.loc)
 				if (src.line1)
-					return 0
+					return FALSE
 				else
 					src.line1 = target
-					return 1
+					return TRUE
 			else
 				user << "You must be on the same tile of this to operate it."
 

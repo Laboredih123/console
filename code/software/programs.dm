@@ -161,9 +161,9 @@ datum/file/normal/show_search()
 datum/file/normal/compare(datum/file/normal/F in view(usr.client))
 
 	if (!( istype(F, /datum/file/normal) ))
-		return 0
+		return FALSE
 	if (F.text == src.text)
-		return 1
+		return TRUE
 
 
 datum/file/normal/merge(datum/file/normal/F in view(usr.client))
@@ -187,11 +187,11 @@ datum/file/normal/add(data)
 datum/file/normal/sound/compare(datum/file/normal/sound/F in view(usr.client))
 
 	if (!( istype(F, /datum/file/normal/sound) ))
-		return 0
+		return FALSE
 	if ((F.text == src.text && (F.s_type == src.s_type && F.s_source == src.s_source)))
-		return 1
+		return TRUE
 	else
-		return 0
+		return FALSE
 
 
 datum/file/normal/sound/copy_to(datum/file/normal/sound/S in view(usr.client))
@@ -222,11 +222,11 @@ datum/file/normal/executable/search/execute(datum/file/t3)
 datum/file/normal/executable/compare(datum/file/normal/executable/F in view(usr.client))
 
 	if (!( istype(F, /datum/file/normal/executable) ))
-		return 0
+		return FALSE
 	if ((F.text == src.text && F.function == src.function))
-		return 1
+		return TRUE
 	else
-		return 0
+		return FALSE
 
 datum/file/normal/executable/script/execute(params in view(usr.client), flag in view(usr.client))
 

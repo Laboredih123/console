@@ -103,7 +103,7 @@
 		if ((src.line1 && (src.line2 && (src.line1.loc == src.line2.loc && src.line1.loc == src.loc))))
 			src.icon_state = "1"
 			src.direction = 1
-			return 1
+			return TRUE
 	if (!( src.line1 ))
 		t1 = 256
 	else
@@ -167,7 +167,7 @@
 			else src.originator = target
 		src.line1 = target
 	src.update()
-	return 1
+	return TRUE
 
 /obj/signal/wire/disconnectfrom(source as obj in view(usr.client))
 	if (src.line1 == source)

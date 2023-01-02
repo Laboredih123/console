@@ -16,14 +16,14 @@ obj/signal
 			if (!( src.line1 ))
 				src.line1 = target
 				user << "Connected to antenna:I/O"
-				return 1
+				return TRUE
 			else
 				if (!( src.control ))
 					user << "Connected to antenna:control"
 					src.control = target
-					return 1
+					return TRUE
 				else
-					return 0
+					return FALSE
 
 		disconnectfrom(obj/target in view(usr.client))
 			if (target == src.line1)
@@ -42,11 +42,11 @@ obj/signal
 
 		r_accept(string in view(usr.client), source in view(usr.client))
 			var/list/ekeys = params2list(src.e_key)
-			if(!ekeys) return 0
+			if(!ekeys) return FALSE
 			if (string in ekeys)
-				return 1
+				return TRUE
 			else
-				return 0
+				return FALSE
 
 		process_signal(obj/signal/structure/S, obj/source)
 			..()

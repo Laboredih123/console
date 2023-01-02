@@ -13,17 +13,17 @@
 /obj/signal/shutter_box/orient_to(obj/target,mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
-		return 0
+		return FALSE
 	if(line1)
-		return 0
+		return FALSE
 	else
 		if(src.loc != user.loc)
 			user << "You must be standing on the same tile as [src] to connect wires."
-			return 0
+			return FALSE
 		else
 			line1 = target
 			user << "Connected to shutter control box."
-			return 1
+			return TRUE
 
 /obj/signal/shutter_box/cut()
 	if(line1)

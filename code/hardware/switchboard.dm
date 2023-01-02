@@ -102,8 +102,8 @@ obj/signal
 													src.line10 = target
 													user << "Connection port: Line 10(10)"
 												else
-													return 0
-			return 1
+													return FALSE
+			return TRUE
 
 		disconnectfrom(source as obj in view(usr.client))
 

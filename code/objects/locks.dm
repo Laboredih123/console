@@ -91,13 +91,13 @@ obj/items
 					if (src.cur_pick)
 						src.cur_pick.cur_lock = null
 						src.cur_pick = null
-					return 1
+					return TRUE
 				else
 					user << "\blue The key doesn't fit"
-					return null
+					return FALSE
 
 			manipulate(mob/user in view(usr.client))
-				return null
+				return FALSE
 
 		attack_by(obj/L as obj in view(usr.client), mob/user in view(usr.client))
 
@@ -111,16 +111,16 @@ obj/items
 			manipulate(mob/user in view(usr.client))
 				var/i = input(user, "Please input access code", null, null)  as text
 				if ("[i]" == "[src.id]")
-					return 1
+					return TRUE
 				else
-					return null
+					return FALSE
 
 			insert_object(i in view(usr.client), mob/user in view(usr.client))
-				return null
+				return FALSE
 
 			insert_key(i in view(usr.client), mob/user in view(usr.client))
 				user << "\blue It is keypad locked."
-				return null
+				return FALSE
 
 			attack_by(obj/L as obj in view(usr.client), mob/user in view(usr.client))
 

@@ -10,15 +10,15 @@ obj/signal
 		orient_to(obj/target in view(usr.client),mob/user)
 			if(ismob(src.loc))
 				user << "Device must be on the ground to connect to it."
-				return 0
+				return FALSE
 			if (src.line1)
 				if (src.line2)
-					return 0
+					return FALSE
 				else
 					src.line2 = target
 			else
 				src.line1 = target
-			return 1
+			return TRUE
 
 		disconnectfrom(obj/source as obj in view(usr.client))
 

@@ -34,7 +34,7 @@
 		view(src) << "\icon[src]: *BEEP*"
 
 /obj/signal/infared/proc/moved()
-					return 1
+	return TRUE
 
 /obj/signal/infared/process_signal(obj/signal/structure/S)
 	..()
@@ -75,14 +75,14 @@
 /obj/signal/infared/orient_to(obj/target,mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
-		return 0
-	if(src.loc == user) return 0
+		return FALSE
+	if(src.loc == user) return FALSE
 	if(!line1)
 		user << "Connected to infared signaler"
 		line1 = target
-		return 1
+		return TRUE
 	else
-		return 0
+		return FALSE
 
 /obj/signal/infared/cut()
 	if(line1)

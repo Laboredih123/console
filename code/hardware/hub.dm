@@ -51,38 +51,38 @@ obj/signal
 			if (!( src.line1 ))
 				src.line1 = target
 				user << "Connection port: Line 1 (1)"
-				return 1
+				return TRUE
 			else
 				if (!( src.line2 ))
 					src.line2 = target
 					user << "Connection port: Line 2 (2)"
-					return 1
+					return TRUE
 				else
 					if (!( src.line3 ))
 						src.line3 = target
 						user << "Connection port: Line 3 (3)"
-						return 1
+						return TRUE
 					else
 						if (!( src.line4 ))
 							src.line4 = target
 							user << "Connection port: Line 4 (4)"
-							return 1
+							return TRUE
 						else
 							if (!( src.line5 ))
 								src.line5 = target
 								user << "Connection port: Line 5 (5)"
-								return 1
+								return TRUE
 							else
 								if (!( src.line_temp ))
 									src.line_temp = target
 									user << "Connection port: Line Action (6)"
-									return 1
+									return TRUE
 								else
 									if (!( src.line_control ))
 										src.line_control = target
 										user << "Connection port: Line Control (7)"
-										return 1
-			return 0
+										return TRUE
+			return FALSE
 		disconnectfrom(source as obj in view(usr.client))
 
 			if (src.line1 == source)

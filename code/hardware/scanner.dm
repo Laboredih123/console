@@ -7,13 +7,13 @@
 /obj/signal/scanner/orient_to(obj/target,mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
-		return 0
+		return FALSE
 	if(!line1)
 		user << "Connected to scanner line."
 		line1 = target
-		return 1
+		return TRUE
 	else
-		return 0
+		return FALSE
 
 /obj/signal/scanner/cut()
 	if(line1)

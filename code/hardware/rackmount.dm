@@ -15,25 +15,25 @@
 /obj/signal/rackmount/orient_to(obj/signal/wire/target,mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
-		return 0
+		return FALSE
 	if(!mounts.len)
 		user << "There are no systems mounted to this rack."
-		return 0
+		return FALSE
 	var/obj/signal/computer/select = input(user,"Which system do you want to connect to?")as null|anything in mounts
-	if(!select) return 0
+	if(!select) return FALSE
 	if(!select.line1)
 		connected += target
 		connected[target] = select
 		select.line1 = target
 		user << "Connected to I/O port of [select.name]"
-		return 1
+		return TRUE
 	else if(!select.line2)
 		connected += target
 		connected[target] = select
 		select.line2 = target
 		user << "Connected to peripheral port of [select.name]"
-		return 1
-	else return 0
+		return TRUE
+	else return FALSE
 
 /obj/signal/rackmount/process_signal(obj/signal/structure/S,obj/source)
 	..()

@@ -65,11 +65,11 @@
 
 /obj/signal/computer/laptop/r_accept(string, source)
 	if (src.status != "on")
-		return 0
+		return FALSE
 	if (string == src.e_key)
-		return 1
+		return TRUE
 	else
-		return 0
+		return FALSE
 
 /obj/signal/computer/laptop/verb/equip()
 	set src in usr

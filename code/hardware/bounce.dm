@@ -20,16 +20,16 @@ obj/signal
 		orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
 			if(ismob(src.loc))
 				user << "Device must be on the ground to connect to it."
-				return 0
+				return FALSE
 			if (get_dist(src,user)<=1)
 				if (src.line1)
-					return 0
+					return FALSE
 				else
 					src.line1 = target
-					return 1
+					return TRUE
 			else
 				user << "You are not close enough to connect to that device."
-				return 0
+				return FALSE
 
 		process_signal(S as obj in view(usr.client), source as obj in view(usr.client))
 			..()

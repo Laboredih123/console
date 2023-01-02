@@ -28,14 +28,14 @@
 	..()
 
 /obj/signal/sign_box/orient_to(obj/target,mob/user)
-	if(line1) return 0
+	if(line1) return FALSE
 	if(user.loc != src.loc)
 		user << "You must be on the same tile as the sign box to connect to it."
-		return 0
+		return FALSE
 	else
 		line1 = target
 		user << "Connected to sign box."
-		return 1
+		return TRUE
 /obj/signal/sign_box/cut()
 	if(line1)
 		line1.disconnectfrom(src)

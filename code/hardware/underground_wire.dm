@@ -96,12 +96,12 @@ obj
 			orient_to(obj/target,mob/user)
 				if(ismob(src.loc))
 					user << "Device must be on the ground to connect to it."
-					return 0
+					return FALSE
 				if(!line1)
 					user << "Connected to underground wire terminal"
 					line1 = target
-					return 1
-				return 0
+					return TRUE
+				return FALSE
 
 			process_signal(obj/signal/structure/S,obj/source)
 				..()

@@ -4,11 +4,11 @@ obj/signal/antenna
 		icon_state = "dish"
 		r_accept(string in view(usr.client), source in view(usr.client))
 			var/list/ekeys = params2list(src.e_key)
-			if(!ekeys) return 0
+			if(!ekeys) return FALSE
 			if ((string in ekeys && istype(source, /obj/signal/antenna/dish)))
-				return 1
+				return TRUE
 			else
-				return 0
+				return FALSE
 
 		process_signal(obj/signal/structure/S, obj/source)
 			..()

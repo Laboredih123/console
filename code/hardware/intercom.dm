@@ -49,12 +49,12 @@ obj/signal
 		orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
 			if(ismob(src.loc))
 				user << "Device must be on the ground to connect to it."
-				return 0
+				return FALSE
 			if (src.line1)
-				return 0
+				return FALSE
 			else
 				src.line1 = target
-				return 1
+				return TRUE
 
 		process_signal(obj/signal/S as obj in view(usr.client), obj/source as obj in view(usr.client))
 			..()

@@ -775,17 +775,17 @@
 /obj/signal/computer/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
-		return 0
+		return FALSE
 	if (!( src.line1 ))
 		src.line1 = target
-		return 1
+		return TRUE
 	else
 		if (!( src.line2 ))
 			src.line2 = target
 			user << "Connected to peripheral line!"
-			return 1
+			return TRUE
 		else
-			return 0
+			return FALSE
 
 /obj/signal/computer/disconnectfrom(source as obj in view(usr.client))
 	if (src.line1 == source)

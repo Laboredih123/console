@@ -21,12 +21,12 @@ obj/signal
 		orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
 			if(ismob(src.loc))
 				user << "Device must be on the ground to connect to it."
-				return 0
+				return FALSE
 			if (src.line1)
-				return 0
+				return FALSE
 			else
 				src.line1 = target
-				return 1
+				return TRUE
 
 		hear(msg in view(usr.client), atom/source as mob|obj|turf|area in view(usr.client), s_type in view(usr.client), c_mes in view(usr.client), r_src as mob|obj|turf|area in view(usr.client))
 
@@ -112,4 +112,4 @@ obj/signal
 
 		proc
 			moved()
-				return 1
+				return TRUE

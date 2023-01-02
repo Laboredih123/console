@@ -12,11 +12,11 @@ obj/signal
 		orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
 			if(ismob(src.loc))
 				user << "Device must be on the ground to connect to it."
-				return 0
+				return FALSE
 			if (!( src.line1 ))
 				src.line1 = target
 				user << "Connected to antenna:I/O"
-				return 1
+				return TRUE
 			else
 				if (!( src.control ))
 					user << "Connected to antenna:control"
@@ -26,7 +26,7 @@ obj/signal
 					return FALSE
 
 		d_accept()
-			return 1
+			return TRUE
 
 		disconnectfrom(obj/target in view(usr.client))
 

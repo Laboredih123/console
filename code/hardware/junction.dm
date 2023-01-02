@@ -42,7 +42,7 @@ obj/signal/wire_junction
 				usr.equipped = null
 				usr << "\blue <B>You have unequipped [src]!</B>"
 	proc/moved()
-		return 1
+		return TRUE
 	process_signal(obj/signal/structure/S,obj/source)
 		..()
 		if(isnull(S))return
@@ -92,21 +92,21 @@ obj/signal/wire_junction
 		if(!line1)
 			line1 = target
 			user << "Connected to junction 1"
-			return 1
+			return TRUE
 		if(!line2)
 			line2 = target
 			user << "Connected to junction 2"
-			return 1
+			return TRUE
 		if(!line3)
 			line3 = target
 			user << "Connected to junction 3"
-			return 1
+			return TRUE
 		if(!line4)
 			line4 = target
 			usr << "Connected to junction 4"
-			return 1
+			return TRUE
 		else
-			return 0
+			return FALSE
 	cut()
 		if(line1)
 			src.line1.disconnectfrom(src)
