@@ -956,5 +956,5 @@
 	if (!( isturf(src.loc) ))
 		user << "The computer cannot be deployed inside an object."
 	else
-		src.com.loc = src.loc
+		src.computer.loc = src.loc
 		del(src)

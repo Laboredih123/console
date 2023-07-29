@@ -66,12 +66,12 @@
 			user << "This rackmount is full."
 		else
 			user << "Successfully mounted the system to the rackmount."
-			if(ckey(valid_system.com.name) == "computer")
-				valid_system.com.label = "mount [length(mounts)+1]"
-				valid_system.com.name = "computer- '[valid_system.com.label]'"
-			mounts += valid_system.com
-			valid_system.com.status = "off"
-			valid_system.com.loc = src
+			if(ckey(valid_system.computer.name) == "computer")
+				valid_system.computer.label = "mount [length(mounts)+1]"
+				valid_system.computer.name = "computer- '[valid_system.computer.label]'"
+			mounts += valid_system.computer
+			valid_system.computer.status = "off"
+			valid_system.computer.loc = src
 			icon_state = "[length(mounts)]"
 			del(valid_system)
 			var/s = 1
@@ -111,7 +111,7 @@
 			S.cut()
 			connected -= S
 	var/obj/items/computer/nc = new(src.loc)
-	nc.com = select
+	nc.computer = select
 	select.loc = nc
 	if(select.label)
 		nc.name = "computer- '[select.label]'"
