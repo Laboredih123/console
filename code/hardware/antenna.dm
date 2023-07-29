@@ -3,13 +3,18 @@
 	icon = 'icons/computer.dmi'
 	icon_state = "antenna"
 	density = TRUE
-	place_locked = TRUE
+	anchored = TRUE
 	var/broadcasting = FALSE
 	var/obj/signal/line1 = null
 	var/obj/signal/control = null
 	var/e_key = "1"
 
-/obj/signal/antenna/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/antenna/New()
+	..()
+	src.verbs += /obj/signal/proc/get_me
+	src.verbs += /obj/signal/proc/drop_me
+
+/obj/signal/antenna/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return 0
@@ -25,7 +30,7 @@
 		else
 			return FALSE
 
-/obj/signal/antenna/disconnectfrom(obj/target in view(usr.client))
+/obj/signal/antenna/disconnectfrom(obj/target)
 	if (target == src.line1)
 		src.line1 = null
 	else
@@ -40,7 +45,7 @@
 	src.line1 = null
 	src.control = null
 
-/obj/signal/antenna/r_accept(string in view(usr.client), source in view(usr.client))
+/obj/signal/antenna/r_accept(string, source)
 	var/list/ekeys = params2list(src.e_key)
 	if(!ekeys) return FALSE
 	if (string in ekeys)
@@ -48,7 +53,7 @@
 	else
 		return FALSE
 
-/obj/signal/antenna/process_signal(obj/signal/structure/S, obj/source)
+/obj/signal/antenna/process_signal(obj/signal/packet/S, obj/source)
 	..()
 	if(isnull(S))return
 	if(istype(src,/obj/signal/antenna/dish)) return
@@ -59,7 +64,7 @@
 		return
 	src.broadcasting = TRUE
 	if (source == src.line1)
-		for(var/obj/signal/C in world)
+		for(var/obj/signal/C as anything in by_type[/obj/signal])
 			if ((get_dist(C.loc, src.loc) <= 50 && C != src))
 				var/a = FALSE
 				var/list/my_ekeys = params2list(src.e_key)
@@ -67,7 +72,7 @@
 					if(C.r_accept(E,src))
 						a = TRUE
 				if (a)
-					var/obj/signal/structure/S1 = new /obj/signal/structure()
+					var/obj/signal/packet/S1 = new /obj/signal/packet()
 					S.copy_to(S1)
 					S1.strength -= 2
 					if (S1.strength <= 0)
@@ -81,10 +86,10 @@
 		if (S.id == "e_key")
 			var/number
 			var/list/my_ekeys = params2list(S.params)
-			if(my_ekeys.len > 5) my_ekeys.Cut(6)
+			if(length(my_ekeys) > 5) my_ekeys.Cut(6)
 			for(var/E in my_ekeys)
 				var/b = FALSE
-				if(my_ekeys.Find(E) < my_ekeys.len) b = TRUE
+				if(my_ekeys.Find(E) < length(my_ekeys)) b = TRUE
 				E = text2num(E)
 				E = round(min(max(1, E), 65000))
 				number += "[E]"
@@ -94,7 +99,7 @@
 	sleep(5)
 	src.broadcasting = FALSE
 
-/obj/signal/antenna/process_radio(obj/signal/structure/S as obj in view(usr.client),atom/source)
+/obj/signal/antenna/process_radio(obj/signal/packet/S, atom/source)
 	S.loc = src
 	S.master = src
 	spawn( 0 )

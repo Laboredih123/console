@@ -6,7 +6,7 @@
 	var/obj/signal/line1 = null
 	var/printing = FALSE
 
-/obj/signal/printer/disconnectfrom(S as obj in view(usr.client))
+/obj/signal/printer/disconnectfrom(obj/S)
 	if (S == src.line1)
 		src.line1 = null
 
@@ -15,7 +15,7 @@
 		src.line1.disconnectfrom(src)
 	src.line1 = null
 
-/obj/signal/printer/orient_to(obj/target in view(usr.client), mob/user as mob in view(usr.client))
+/obj/signal/printer/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return FALSE
@@ -25,7 +25,7 @@
 		src.line1 = target
 		return TRUE
 
-/obj/signal/printer/process_signal(obj/signal/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/printer/process_signal(obj/signal/S, obj/source)
 	..()
 	if(isnull(S))return
 

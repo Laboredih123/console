@@ -1,8 +1,8 @@
 /obj/signal/antenna/dish
-		name = "Satellite Relay Uplink"
-		icon_state = "dish"
+	name = "Satellite Relay Uplink"
+	icon_state = "dish"
 
-/obj/signal/antenna/dish/r_accept(string in view(usr.client), source in view(usr.client))
+/obj/signal/antenna/dish/r_accept(string, source)
 	var/list/ekeys = params2list(src.e_key)
 	if(!ekeys) return FALSE
 	if ((string in ekeys && istype(source, /obj/signal/antenna/dish)))
@@ -10,7 +10,7 @@
 	else
 		return FALSE
 
-/obj/signal/antenna/dish/process_signal(obj/signal/structure/S, obj/source)
+/obj/signal/antenna/dish/process_signal(obj/signal/packet/S, obj/source)
 	..()
 	if(!S) return
 	S.loc = null
@@ -21,7 +21,7 @@
 		return
 	src.broadcasting = TRUE
 	if (source == src.line1)
-		for(var/obj/signal/C in world)
+		for(var/obj/signal/C as anything in by_type[/obj/signal])
 			if (C != src)
 				var/list/my_ekeys = params2list(src.e_key)
 				var/a = FALSE
@@ -29,7 +29,7 @@
 					if(C.r_accept(E,src))
 						a = TRUE
 				if (a)
-					var/obj/signal/structure/S1 = new /obj/signal/structure(  )
+					var/obj/signal/packet/S1 = new /obj/signal/packet(  )
 					S.copy_to(S1)
 					S1.timer_down = TRUE
 					S1.strength -= 2
@@ -44,10 +44,10 @@
 		if (S.id == "e_key")
 			var/number
 			var/list/my_ekeys = params2list(S.params)
-			if(my_ekeys.len > 5) my_ekeys.Cut(6)
+			if(length(my_ekeys) > 5) my_ekeys.Cut(6)
 			for(var/E in my_ekeys)
 				var/b = FALSE
-				if(my_ekeys.Find(E) < my_ekeys.len) b = TRUE
+				if(my_ekeys.Find(E) < length(my_ekeys)) b = TRUE
 				E = text2num(E)
 				E = round(min(max(1, E), 65000))
 				number += "[E]"

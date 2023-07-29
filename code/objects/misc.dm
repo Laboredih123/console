@@ -15,7 +15,7 @@ obj/items
 
 obj
 	trashcan
-		attack_by(obj/P in usr, mob/user)
+		attack_by(obj/P, mob/user)
 			if(P.loc != user) return
 			if(istype(P,/obj/items))
 				var/obj/items/PQ = P
@@ -40,7 +40,7 @@ obj
 				A.hear(msg, source, s_type, c_mes, r_src)
 
 
-		attack_by(obj/items/I in view(usr.client), mob/user in view(usr.client))
+		attack_by(obj/items/I, mob/user)
 
 			if ((src.contents.len < 2 && istype(I, /obj/items)))
 				I.unequip()
@@ -74,7 +74,7 @@ obj
 			..()
 			src.t_type = src.icon_state
 
-		attack_by(obj/items/I in view(usr.client), mob/user in view(usr.client))
+		attack_by(obj/items/I, mob/user)
 
 			if (I)
 				if(istype(I,/obj/items))

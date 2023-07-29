@@ -46,7 +46,7 @@
 	S.loc = src.loc
 	del(S)
 
-/obj/signal/switchboard/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/switchboard/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return 0
@@ -93,7 +93,7 @@
 											return FALSE
 	return TRUE
 
-/obj/signal/switchboard/disconnectfrom(source as obj in view(usr.client))
+/obj/signal/switchboard/disconnectfrom(obj/source)
 	if (src.line1 == source)
 		src.line1 = null
 	else

@@ -3,7 +3,7 @@
 	icon = 'icons/computer.dmi'
 	icon_state = "hub"
 	density = TRUE
-	place_locked = TRUE
+	anchored = TRUE
 	var/offset = 0
 	var/multi = 20
 	var/s_id = "router"
@@ -17,7 +17,7 @@
 	var/obj/signal/line_control = null
 	var/position = 1
 
-/obj/signal/hub/process_signal(obj/signal/structure/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/hub/process_signal(obj/signal/packet/S, obj/source)
 	..()
 	if(!S) return
 	S.loc = src.loc
@@ -30,20 +30,20 @@
 		spawn(1)
 			for(var/x in L)
 				if(!S) return
-				var/obj/signal/structure/S1 = new/obj/signal/structure()
+				var/obj/signal/packet/S1 = new/obj/signal/packet()
 				S.copy_to(S1)
 				S1.strength--
 				if (S1.strength <= 0)
 					del(S1)
 					return
-				var/obj/signal/structure/S2 = src.vars[x]
+				var/obj/signal/packet/S2 = src.vars[x]
 				spawn( 0 )
 					if (S2)
 						S2.process_signal(S1, src)
 				sleep(1)
 			del(S)
 
-/obj/signal/hub/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/hub/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return 0
@@ -83,7 +83,7 @@
 								return TRUE
 	return FALSE
 
-/obj/signal/hub/disconnectfrom(source as obj in view(usr.client))
+/obj/signal/hub/disconnectfrom(obj/source)
 	if (src.line1 == source)
 		src.line1 = null
 	else
@@ -127,6 +127,16 @@
 	src.line5 = null
 	src.line_temp = null
 	src.line_control = null
+
+/obj/signal/hub/Move()
+	..()
+	if(line1) line1.cut()
+	if(line2) line2.cut()
+	if(line3) line3.cut()
+	if(line4) line4.cut()
+	if(line5) line5.cut()
+	if(line_control) line_control.cut()
+	if(line_temp) line_temp.cut()
 
 /obj/signal/hub/verb/swap(n1 as num, n2 as num)
 	set src in oview(1)
@@ -192,3 +202,35 @@
 			if (src.line_control)
 				src.line_control.disconnectfrom(src)
 			src.line_control = null
+
+/obj/signal/hub/mini
+	density = FALSE
+	name = "Mini Hub"
+	max_signal = 10
+	icon = 'icons/mini.dmi'
+	icon_state = "hub"
+	unlockable = TRUE
+	anchored = FALSE
+
+/obj/signal/hub/mini/New()
+	..()
+	if(!anchored)
+		verbs += /obj/signal/proc/get_me
+		verbs += /obj/signal/proc/drop_me
+
+/obj/signal/hub/router
+
+/obj/signal/hub/router/New()
+	..()
+	if(!anchored)
+		verbs += /obj/signal/proc/get_me
+		verbs += /obj/signal/proc/drop_me
+
+/obj/signal/hub/router/mini
+	density = FALSE
+	name = "Mini Router"
+	max_signal = 10
+	icon = 'icons/mini.dmi'
+	icon_state = "router"
+	unlockable = TRUE
+	anchored = FALSE

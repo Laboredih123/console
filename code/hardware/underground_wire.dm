@@ -44,7 +44,7 @@
 				user << image('icons/concealed_wiring.dmi',T,icon_state="hl",layer=99)
 	..()
 
-/obj/items/concealed_wire/attack_by(obj/D,mob/user)
+/obj/items/concealed_wire/attack_by(obj/D, mob/user)
 	if(user.con_using)
 		user << "You stop placing underground wire and place a secondary terminal."
 		var/obj/signal/concealed_wire/child = new(user.loc)
@@ -99,7 +99,7 @@
 		return TRUE
 	return FALSE
 
-/obj/signal/concealed_wire/process_signal(obj/signal/structure/S,obj/source)
+/obj/signal/concealed_wire/process_signal(obj/signal/packet/S,obj/source)
 	..()
 	if(isnull(S))return
 
@@ -107,27 +107,27 @@
 	S.master = src
 	if(line1)
 		if(line1 != source)
-			var/obj/signal/structure/resend = new()
+			var/obj/signal/packet/resend = new()
 			S.copy_to(resend)
 			line1.process_signal(resend,src)
 
 		else
 			if(connected_terminal)
 				if(istype(connected_terminal,/obj/signal/wire/hyper))
-					var/obj/signal/structure/S1 = new()
+					var/obj/signal/packet/S1 = new()
 					S.copy_to(S1)
 					S.invisibility = 101
 					connected_terminal.process_signal(S1,connected_terminal)
 				else
 					for(var/turf/T in connected_wires)
-						var/obj/signal/structure/S1 = new()
+						var/obj/signal/packet/S1 = new()
 						S.copy_to(S1)
 						S.invisibility = 101
 						if((locate(connected_terminal) in T))
 							S1.loc = connected_terminal.loc
 							S1.master = connected_terminal
 							if(connected_terminal.line1)
-								var/obj/signal/structure/S3 = new()
+								var/obj/signal/packet/S3 = new()
 								S1.copy_to(S3)
 								connected_terminal.process_signal(S3,connected_terminal)
 							del(S1)

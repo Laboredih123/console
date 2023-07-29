@@ -16,7 +16,7 @@
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return FALSE
-	if(!mounts.len)
+	if(!length(mounts))
 		user << "There are no systems mounted to this rack."
 		return FALSE
 	var/obj/signal/computer/select = input(user,"Which system do you want to connect to?")as null|anything in mounts
@@ -35,14 +35,14 @@
 		return TRUE
 	else return FALSE
 
-/obj/signal/rackmount/process_signal(obj/signal/structure/S,obj/source)
+/obj/signal/rackmount/process_signal(obj/signal/packet/S,obj/source)
 	..()
 	if(!S) return
 
 	var/obj/signal/computer/signal_system = connected[source]
 	if(signal_system)
 		if(signal_system.line1 == source||signal_system.line2 == source)
-			var/obj/signal/structure/S2 = new()
+			var/obj/signal/packet/S2 = new()
 			S.copy_to(S2)
 			signal_system.process_signal(S2,source)
 		del(S)
@@ -59,20 +59,20 @@
 		C.cut()
 	connected = list()
 
-/obj/signal/rackmount/attack_by(obj/items/selected,mob/user)
+/obj/signal/rackmount/attack_by(obj/items/selected, mob/user)
 	if(istype(selected,/obj/items/computer))
 		var/obj/items/computer/valid_system = selected
-		if(mounts.len >= max_mounts)
+		if(length(mounts) >= max_mounts)
 			user << "This rackmount is full."
 		else
 			user << "Successfully mounted the system to the rackmount."
 			if(ckey(valid_system.com.name) == "computer")
-				valid_system.com.label = "mount [mounts.len+1]"
+				valid_system.com.label = "mount [length(mounts)+1]"
 				valid_system.com.name = "computer- '[valid_system.com.label]'"
 			mounts += valid_system.com
 			valid_system.com.status = "off"
 			valid_system.com.loc = src
-			icon_state = "[mounts.len]"
+			icon_state = "[length(mounts)]"
 			del(valid_system)
 			var/s = 1
 			for(var/obj/signal/computer/S in mounts)
@@ -83,7 +83,7 @@
 
 	else
 		if(istype(selected,/obj/items/disk))
-			if(!mounts.len)
+			if(!length(mounts))
 				user << "There are no systems mounted to this rack."
 				return
 			var/obj/signal/computer/sel = input("Which computer do you want to insert the disk into?")as null|anything in mounts
@@ -99,7 +99,7 @@
 /obj/signal/rackmount/verb/unmount_system()
 	set src in view(1)
 	set category = "computers"
-	if(!mounts.len)
+	if(!length(mounts))
 		usr << "There are no systems mounted to this rack."
 		return
 	var/obj/signal/computer/select = input(usr,"Which system do you want to unmount?")as null|anything in mounts
@@ -115,7 +115,7 @@
 	select.loc = nc
 	if(select.label)
 		nc.name = "computer- '[select.label]'"
-	icon_state = "[mounts.len]"
+	icon_state = "[length(mounts)]"
 	var/s = 1
 	for(var/obj/signal/computer/S in mounts)
 		if(findtext(S.name,"computer- 'mount"))
@@ -126,7 +126,7 @@
 /obj/signal/rackmount/verb/boot()
 	set src in view(1)
 	set category = "computers"
-	if(!mounts.len)
+	if(!length(mounts))
 		usr << "There are no systems mounted to this rack."
 		return
 	var/obj/signal/computer/select = input(usr,"Which system do you want to boot?")as null|anything in mounts
@@ -136,7 +136,7 @@
 /obj/signal/rackmount/verb/operate()
 	set src in view(1)
 	set category = "computers"
-	if(!mounts||!mounts.len)
+	if(!mounts||!length(mounts))
 		usr << "There are no systems mounted to this rack."
 		return
 	var/obj/signal/computer/select = input(usr,"Which system do you want to operate?")as null|anything in mounts
@@ -147,7 +147,7 @@
 /obj/signal/rackmount/verb/eject()
 	set src in view(1)
 	set category = "computers"
-	if(!mounts.len)
+	if(!length(mounts))
 		usr << "There are no systems mounted to this rack."
 		return
 	var/obj/signal/computer/select = input(usr,"Which system do you want to eject a disk from?")as null|anything in mounts
@@ -157,7 +157,7 @@
 /obj/signal/rackmount/verb/power_off()
 	set src in view(1)
 	set category = "computers"
-	if(!mounts.len)
+	if(!length(mounts))
 		usr << "There are no systems mounted to this rack."
 		return
 	var/obj/signal/computer/select = input(usr,"Which system do you want to power off?")as null|anything in mounts

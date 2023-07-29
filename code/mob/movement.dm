@@ -1,4 +1,4 @@
-mob/Move(NewLoc in view(usr.client))
+/mob/Move(NewLoc in view(usr.client))
 	var/old_loc = src.loc
 	. = ..()
 	if(client)

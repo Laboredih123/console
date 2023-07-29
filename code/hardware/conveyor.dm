@@ -3,6 +3,7 @@
 /obj/items/ConveyorParts
 	name = "Conveyor Parts"
 	icon = 'icons/conveyor_parts.dmi'
+	desc = "Use by itself to create a lone conveyor, or hit another conveyor to connect it"
 	suffix = "\[1\]"
 	var/stack = 1
 
@@ -11,40 +12,55 @@
 	spawn(10)
 		suffix = "\[[stack]\]"
 
-/obj/items/ConveyorParts/attack_by(obj/using,mob/user)
-	new /obj/signal/Conveyor/Belt(user.loc)
-	user << "Now equip the parts and double click an existing belt to place new belts on that line."
+/obj/items/ConveyorParts/attack_hand(mob/user)
+	new /obj/signal/Conveyor(user.loc)
+	stack--
+	if (stack <= 0)
+		del(src)
 
 /obj/signal/Conveyor
-
-/obj/signal/Conveyor/Belt
-	dir = NORTH
-	icon_state = "1"
 	name = "Conveyor Belt"
 	icon = 'icons/conveyor_belt.dmi'
+	icon_state = "inactive"
+	desc = "Hit with a wrench to rotate. Hit with a screwdriver to remove."
+	anchored = TRUE
+
 	var/tmp/active = FALSE
 	var/tmp/deleting = FALSE
 	var/tmp/full_delete = FALSE
-	var/delay = 5
+	var/delay = 10
 	var/list/connected = list()
+	var/flipped = FALSE
+	var/pushdir
 
-/obj/signal/Conveyor/Belt/attack_by(obj/using, mob/user)
+/obj/signal/Conveyor/New()
+	..()
+	src.update_pushdir()
+
+/obj/signal/Conveyor/attack_by(obj/using, mob/user)
 	if(istype(using,/obj/items/wrench))
-		full_delete = TRUE
-		del(src)
+		src.dir = turn(src.dir, -45)
+		src.update_pushdir()
 	if(istype(using,/obj/items/screwdriver))
 		del(src)
-	if(istype(using,/obj/items/ConveyorParts))
+	if(istype(using, /obj/items/wirecutters))
+		src.Toggle_Line()
+	if(istype(using, /obj/items/toolbox))
+		flipped = !flipped
+		src.icon_state = "[active ? "": "in"]active[flipped ? "-flipped" : ""]"
+		src.update_pushdir()
+	if(istype(using, /obj/items/ConveyorParts))
 		var/obj/items/ConveyorParts/C = using
 		var/list/valid_directions = list(NORTH,SOUTH,EAST,WEST)
 		if(!valid_directions.Find(get_dir(src,user)))
 			user << "Diagonal conveyor belts are not supported, sorry!"
 			return
-		if(connected.len >= 2)
+		if(length(src.connected) >= 2)
 			user << "There's nowhere to hook them up!"
 		else
-			var/obj/signal/Conveyor/Belt/NewBelt = new(usr.loc)
-			AddBelt(NewBelt)
+			var/obj/signal/Conveyor/NewBelt = new(usr.loc)
+			src.connected += NewBelt
+			NewBelt.connected += src
 			C.stack--
 			if(C.stack <= 0)
 				del(C)
@@ -53,96 +69,118 @@
 	else
 		..()
 
-/obj/signal/Conveyor/Belt/Del()
-	deleting = TRUE
-	for(var/obj/signal/Conveyor/Belt/B in connected)
-		if(full_delete)
-			if(B.deleting) continue
-			B.full_delete = TRUE
-			del(B)
-		else
-			B.RemoveBelt(src)
-			B.autojoin()
+/obj/signal/Conveyor/examine()
+	. = ..()
+	. += "Its going [num2dir(pushdir)]."
+	. += "Its dir is [num2dir(dir)]."
 
-	..()
-
-/obj/signal/Conveyor/Belt/proc/autojoin()
-	var/int = 0
-	for(var/obj/signal/Conveyor/Belt/B in connected)
-		int |= get_dir(src,B)
-	icon_state = "[int]"
-
-/obj/signal/Conveyor/Belt/proc/AddBelt(obj/signal/Conveyor/Belt/B)
-	connected += B
-	B.connected += src
-	autojoin()
-	B.autojoin()
-
-/obj/signal/Conveyor/Belt/proc/RemoveBelt(obj/signal/Conveyor/Belt/B)
-	connected -= B
-	B.connected -= src
-	autojoin()
-	B.autojoin()
-
-/obj/signal/Conveyor/Belt/proc/Activate()
-	if(active) return
+/obj/signal/Conveyor/proc/Activate_Line(obj/signal/Conveyor/caller)
 	active = TRUE
-	spawn(20)
-		active = FALSE
-	PushTo(null)
+	src.icon_state = "active[flipped ? "-flipped" : ""]"
 
-/obj/signal/Conveyor/Belt/proc/PushTo(obj/signal/Conveyor/pushed_from,push_delay)
-	var/obj/signal/Conveyor/Belt/push_to
-	src.icon = 'icons/conveyor_belt_active.dmi'
-	for(var/obj/signal/Conveyor/Belt/connect in connected)
-		if(pushed_from == connect) continue
-		else push_to = connect
-	if(push_to)
-		for(var/atom/movable/A in src.loc)
-			if(istype(A,/obj/signal/structure)) continue
-			if(A == src) continue
-			if(istype(A,/obj/signal/infared))
-				var/obj/signal/infared/I = A
-				if(I.active) continue
-			if(istype(A,/obj/signal/wire)) continue
-			if(istype(A,/obj/infared)) continue
-			if(istype(A,/obj/door)) continue
-			if(istype(A,/obj/signal/box)) continue
-			if(istype(A,/obj/signal/Conveyor)) continue
-			if(istype(A,/obj/signal/sign_box)) continue
-			step(A,get_dir(src,push_to))
-		if(!push_delay) push_delay = delay
-		spawn(push_delay)
-			if(push_to)
-				push_to.PushTo(src,push_delay)
-	spawn(10)
-		src.icon = 'icons/conveyor_belt.dmi'
+	for (var/obj/signal/Conveyor/belt in connected)
+		if (belt == caller)
+			continue
+		belt.Activate_Line(src)
 
-/obj/signal/Conveyor/Belt/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/Conveyor/proc/Deactivate_Line(obj/signal/Conveyor/caller)
+	active = FALSE
+	src.icon_state = "inactive[flipped ? "-flipped" : ""]"
+
+	for (var/obj/signal/Conveyor/belt in connected)
+		if (belt == caller)
+			continue
+		belt.Deactivate_Line(src)
+
+/obj/signal/Conveyor/proc/Toggle_Line(obj/signal/Conveyor/caller)
+	active = !active
+	src.icon_state = "[active ? "": "in"]active[flipped ? "-flipped" : ""]"
+
+	for (var/obj/signal/Conveyor/belt in connected)
+		if (belt == caller)
+			continue
+		belt.Toggle_Line(src)
+
+/obj/signal/Conveyor/proc/update_pushdir()
+	var/flippeddir
+	switch(dir)
+		if(NORTH)
+			pushdir = NORTH
+			flippeddir = SOUTH
+		if(SOUTH)
+			pushdir = SOUTH
+			flippeddir = NORTH
+		if(EAST)
+			pushdir = EAST
+			flippeddir = WEST
+		if(WEST)
+			pushdir = WEST
+			flippeddir = EAST
+		if(NORTHEAST)
+			pushdir = EAST
+			flippeddir = SOUTH
+		if(NORTHWEST)
+			pushdir = NORTH
+			flippeddir = EAST
+		if(SOUTHEAST)
+			pushdir = SOUTH
+			flippeddir = WEST
+		if(SOUTHWEST)
+			pushdir = WEST
+			flippeddir = NORTH
+	if (flipped)
+		pushdir = flippeddir
+
+/obj/signal/Conveyor/Crossed()
+	if (!active)
+		return
+	sleep(delay)
+	for (var/atom/movable/AM in src.loc)
+		if (AM.anchored)
+			continue
+		step(AM, pushdir)
+
+/obj/signal/Conveyor/orient_to(obj/target, mob/user)
 	if (get_dist(src,user) <= 1)
-		if (src.connected.len >= 2)
+		if (length(src.connected) >= 2)
 			user << "That belt has no free connection ports!"
 			return FALSE
 		else
 			src.connected += target
 			return TRUE
 
-/obj/signal/Conveyor/Belt/process_signal(obj/signal/structure/S, obj/source)
+/obj/signal/Conveyor/Del()
+	for (var/obj/signal/obj as anything in connected)
+		obj.disconnectfrom(src)
+		src.connected -= obj
 	..()
-	if(S.id == "activate")
-		spawn(1) Activate()
-	else if(S.id == "delay")
-		var/new_speed = text2num(S.params)
-		if(new_speed <= 0) new_speed = 1
-		if(new_speed >= 15) new_speed = 15
-		delay = new_speed
+
+/obj/signal/Conveyor/process_signal(obj/signal/packet/S, obj/source)
+	..()
+	switch (S.id)
+		if("activate")
+			if (!active)
+				Activate_Line()
+
+		if("deactivate")
+			if (active)
+				Deactivate_Line()
+
+		if("toggle-power")
+			Toggle_Line()
+
+		if("delay")
+			var/new_speed = text2num(S.params)
+			if(new_speed <= 0) new_speed = 1
+			if(new_speed >= 15) new_speed = 15
+			delay = new_speed
 	del(S)
 
-/obj/signal/Conveyor/Belt/cut()
+/obj/signal/Conveyor/cut()
 	for(var/obj/signal/wire/W in connected)
 		W.cut()
 
-/obj/signal/Conveyor/Belt/disconnectfrom(obj/S)
+/obj/signal/Conveyor/disconnectfrom(obj/S)
 	if (S in connected)
 		connected -= S
 

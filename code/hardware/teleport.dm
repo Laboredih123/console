@@ -16,38 +16,38 @@
 /obj/signal/teleport_pad/proc/Engage(loop=1,dest_or=null)
 	var/dest = destination
 	if(dest_or) dest = dest_or
-	var/obj/signal/teleport_pad/T = locate("teleport_[dest]") in world
+	var/obj/signal/teleport_pad/T = locate("teleport_[dest]")
 	if(T && !ismob(T.loc) && T.identifier)
 		if(!T.active)
 		/*	T.active = TRUE
 			T.charged = TRUE
 			T.primed = TRUE
 			T.icon_state = "active_3"*/
-			for(var/atom/movable/A in src.loc)
+			for(var/atom/movable/AM as anything in src.loc)
 				spawn(1)
-					if(istype(A,/obj/signal/structure)) continue
-					if(A == src) continue
-					if(istype(A,/obj/signal/infared))
-						var/obj/signal/infared/I = A
+					if(istype(AM, /obj/signal/packet)) continue
+					if(AM == src) continue
+					if(istype(AM ,/obj/signal/infared))
+						var/obj/signal/infared/I = AM
 						if(I.active) continue
-					if(istype(A,/obj/signal/wire)) continue
-					if(istype(A,/obj/infared)) continue
-					if(istype(A,/obj/door)) continue
-					if(istype(A,/obj/signal/box)) continue
-					if(istype(A,/obj/signal/Conveyor)) continue
-					if(istype(A,/obj/signal/sign_box)) continue
-					if(A)
-						if(A.has_teleported) continue
-						A.loc = T.loc
-						A.has_teleported = TRUE
+					if(istype(AM, /obj/signal/wire)) continue
+					if(istype(AM, /obj/infared)) continue
+					if(istype(AM, /obj/door)) continue
+					if(istype(AM, /obj/signal/box)) continue
+					if(istype(AM, /obj/signal/Conveyor)) continue
+					if(istype(AM, /obj/signal/sign_box)) continue
+					if(AM)
+						if(AM.has_teleported) continue
+						AM.loc = T.loc
+						AM.has_teleported = TRUE
 						spawn(10)
-							if(A)
-								A.has_teleported = FALSE
+							if(AM)
+								AM.has_teleported = FALSE
 			if(loop)
 				T.Engage(0,src.identifier)
 			/*for(var/atom/movable/A in T.loc)
 				spawn(1)
-					if(istype(A,/obj/signal/structure)) continue
+					if(istype(A,/obj/signal/packet)) continue
 					if(A == T) continue
 					if(A)
 						if(A.has_teleported) continue
@@ -61,7 +61,7 @@
 			T.primed = FALSE
 			T.icon_state = "active_0"
 			if(T.line1)
-				var/obj/signal/structure/S1 = new /obj/signal/structure( src )
+				var/obj/signal/packet/S1 = new /obj/signal/packet( src )
 				S1.id = "teleporter"
 				S1.params = "incoming"
 				T.line1.process_signal(S1,src)*/
@@ -81,7 +81,7 @@
 		user << "You must be closer to connect a wire to that!"
 		return FALSE
 
-/obj/signal/teleport_pad/process_signal(obj/signal/structure/S,atom/source)
+/obj/signal/teleport_pad/process_signal(obj/signal/packet/S,atom/source)
 	..()
 	if(!S) return
 
@@ -94,14 +94,14 @@
 		primed = !primed
 		icon_state = "active_[primed]"
 		if(!primed) charged = FALSE
-		var/obj/signal/structure/S1 = new /obj/signal/structure( src )
+		var/obj/signal/packet/S1 = new /obj/signal/packet( src )
 		S1.id = "teleporter"
 		S1.params = "primed_[primed]"
 		if(line1)
 			line1.process_signal(S1,src)
 	if(S.id == "charge")
 		if(primed)
-			var/obj/signal/teleport_pad/T = locate("teleport_[destination]") in world
+			var/obj/signal/teleport_pad/T = locate("teleport_[destination]")
 			icon_state = "active_2"
 			charged = TRUE
 			charged_destination = destination
@@ -111,14 +111,14 @@
 					T.charged = TRUE
 					T.icon_state = "active_2"
 					T.charged_destination = identifier
-			var/obj/signal/structure/S1 = new /obj/signal/structure( src )
+			var/obj/signal/packet/S1 = new /obj/signal/packet( src )
 			S1.id = "teleporter"
 			S1.params = "charged"
 
 			if(line1)
 				line1.process_signal(S1,src)
 		else
-			var/obj/signal/structure/S1 = new /obj/signal/structure( src )
+			var/obj/signal/packet/S1 = new /obj/signal/packet( src )
 			S1.id = "teleporter"
 			S1.params = "charge_failed"
 			if(line1)
@@ -129,7 +129,7 @@
 			icon_state = "active_3"
 			active = TRUE
 			Engage()
-			var/obj/signal/structure/S1 = new /obj/signal/structure( src )
+			var/obj/signal/packet/S1 = new /obj/signal/packet( src )
 			S1.id = "teleporter"
 			S1.params = "outgoing:[destination]"
 			if(line1)
@@ -139,7 +139,7 @@
 		charged = FALSE
 		active = FALSE
 		icon_state = "active_0"
-		var/obj/signal/structure/S1 = new /obj/signal/structure( src )
+		var/obj/signal/packet/S1 = new /obj/signal/packet( src )
 		S1.id = "teleporter"
 		S1.params = "deactivate"
 		if(line1)
@@ -147,7 +147,7 @@
 	if(S.id == "dest")
 		if(S.params)
 			destination = "[S.params]"
-			var/obj/signal/structure/S1 = new /obj/signal/structure( src )
+			var/obj/signal/packet/S1 = new /obj/signal/packet( src )
 			S1.id = "teleporter"
 			S1.params = "dest_change:[destination]"
 			if(line1)
@@ -156,7 +156,7 @@
 		if(S.params)
 			identifier = S.params
 			tag = "teleport_[identifier]"
-			var/obj/signal/structure/S1 = new /obj/signal/structure( src )
+			var/obj/signal/packet/S1 = new /obj/signal/packet( src )
 			S1.id = "teleporter"
 			S1.params = "ident_change:[identifier]"
 			if(line1)

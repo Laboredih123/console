@@ -1,6 +1,5 @@
 // Just messin' with vis_contents, won't compile earlier than 512.
 
-#if DM_VERSION >= 512
 /obj/signal/camera
 	name = "camera"
 	icon = 'icons/camera.dmi'
@@ -11,7 +10,7 @@
 
 /obj/signal/camera/New()
 	spawn(10)
-		var/obj/signal/camera_screen/found = locate("cam_screen_[camera_id]") in world
+		var/obj/signal/camera_screen/found = locate("cam_screen_[camera_id]")
 		if(found)
 			connected = found
 			found.connected = src
@@ -44,7 +43,3 @@
 	screen.vis_contents += get_step(connected,WEST)
 	world << screen
 	underlays += image('icons/camera_screen.dmi',"screen",layer=TURF_LAYER+1)
-
-#else
-	#warn BYOND v512 or higher is required to use vis_contents.
-#endif

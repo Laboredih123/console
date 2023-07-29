@@ -3,9 +3,9 @@ var/excode_speed = 30
 
 #define FILE_FLAG_SUPER 32
 
-datum/task/var/special_flags = 0 // Special flags to keep the kiddos out.
+/datum/task/var/special_flags = 0 // Special flags to keep the kiddos out.
 
-datum/task/proc/get_label(var/labelname, var/list/goto_array)
+/datum/task/proc/get_label(var/labelname, var/list/goto_array)
 	if (length(labelname))
 		if ( labelname[1] == "$" )
 			var/vargoto = get_data("[copytext(labelname, 2)]")
@@ -15,7 +15,7 @@ datum/task/proc/get_label(var/labelname, var/list/goto_array)
 			return text2num(goto_array["[labelname]"])
 	return 0
 
-datum/task/proc/parse()
+/datum/task/proc/parse()
 	if (src.p_type)
 		src.master.parse_string(src.code, src)
 		return
@@ -25,7 +25,7 @@ datum/task/proc/parse()
 	var/counter = 1
 	for(var/x in command_list)
 		var/list/t1 = splittext(x, ";")
-		if ((t1.len >= 2 && t1[1] == "id"))
+		if ((length(t1) >= 2 && t1[1] == "id"))
 			goto_array["[t1[2]]"] = counter
 		counter++
 
@@ -36,7 +36,7 @@ datum/task/proc/parse()
 	//src.var_list["space"] = "\[space\]"
 	var_list["retstack"] = list()
 	var_list["retindex"] = "0"
-	while((command_list.len >= counter && (src.master && src.master.sys_stat >= 1)))
+	while((length(command_list) >= counter && (src.master && src.master.sys_stat >= 1)))
 		// Changed this to a counter-based loop so the sleep() only fires every x loops.
 		// This allows excode to execute faster than one line per-tick.
 		// No more useless excode programs. - Nadrew
@@ -60,7 +60,7 @@ datum/task/proc/parse()
 					continue
 				command_parse = replacetext(command_parse,"\[[variable]\]",src.var_list[variable])
 				t1[index] = command_parse
-		if (t1.len)
+		if (length(t1))
 			switch(t1[1])
 				if("comment")
 					counter++
@@ -69,7 +69,7 @@ datum/task/proc/parse()
 					counter++
 
 				if("args")
-					if(t1.len != 2)
+					if(length(t1) != 2)
 						src.master.show_message("args: Takes 1 argument.")
 					else
 						var/variable = ckeyEx(get_data(t1[2]))
@@ -86,7 +86,7 @@ datum/task/proc/parse()
 					counter++
 
 				if("setenv")
-					if(t1.len != 3)
+					if(length(t1) != 3)
 						src.master.show_message("setenv: Takes two arguments.")
 					else
 						var/var_one = get_data(t1[2])
@@ -99,8 +99,8 @@ datum/task/proc/parse()
 							master.environment[var_one] = var_two
 					counter++
 				if("getenv")
-					if(t1.len != 3)
-						if(t1.len == 2)
+					if(length(t1) != 3)
+						if(length(t1) == 2)
 							var/list/envlist = src.master.environment.Copy()
 							src.var_list[t1[3]] = envlist
 
@@ -117,7 +117,7 @@ datum/task/proc/parse()
 								src.var_list[var_two] = null
 					counter++
 				if("uppertext")
-					if(t1.len != 3)
+					if(length(t1) != 3)
 						src.master.show_message("uppertext: Takes two arguments.")
 					else
 						var/var_one = get_data(t1[2])
@@ -129,7 +129,7 @@ datum/task/proc/parse()
 							set_data(var_two, var_one)
 					counter++
 				if("lowertext")
-					if(t1.len != 3)
+					if(length(t1) != 3)
 						src.master.show_message("lowertext: Takes two arguments.")
 					else
 						var/var_one = get_data(t1[2])
@@ -142,7 +142,7 @@ datum/task/proc/parse()
 					counter++
 
 				if("md5")
-					if(t1.len != 3)
+					if(length(t1) != 3)
 						src.master.show_message("md5: Takes two arguments.")
 					else
 						var/var_one = get_data(t1[2])
@@ -155,7 +155,7 @@ datum/task/proc/parse()
 					counter++
 
 				if("ckey")
-					if(t1.len != 3)
+					if(length(t1) != 3)
 						src.master.show_message("ckey: Takes two arguments.")
 					else
 						var/var_one = get_data(t1[2])
@@ -168,11 +168,11 @@ datum/task/proc/parse()
 					counter++
 
 				if("sndsrc")
-					if(t1.len < 3)
+					if(length(t1) < 3)
 						src.master.show_message("sndsrc: Takes at least two arguments.")
 					else
 						var/mode = "source"
-						if(t1.len >= 4)
+						if(length(t1) >= 4)
 							mode = get_data(t1[4])
 						if(!mode) mode = "source"
 						var/datum/file/normal/sound/snd = src.master.parse2file(get_data(t1[3]))
@@ -189,13 +189,13 @@ datum/task/proc/parse()
 
 
 				if("echo_var")
-					if(t1.len >= 2)
+					if(length(t1) >= 2)
 						var/variable = get_data(t1[2])
 						src.master.show_message("[variable]")
 					counter++
 
 				if("rand")
-					if(t1.len < 4)
+					if(length(t1) < 4)
 						src.master.show_message("rand requires three arguments")
 					else
 						var/l_bound = text2num(get_data(t1[2]))
@@ -206,7 +206,7 @@ datum/task/proc/parse()
 					counter++
 
 				if("goto")
-					if (t1.len >= 2)
+					if (length(t1) >= 2)
 						var/cnt = get_label(t1[2], goto_array)
 						if (cnt > 0)
 							counter = cnt
@@ -247,14 +247,14 @@ datum/task/proc/parse()
 							src.var_list["[copytext(t1[2], 1, temp)]"] = L
 					counter++
 				if("copytext")
-					if(t1.len < 4)
+					if(length(t1) < 4)
 						src.master.show_message("Not enough arguments for copytext.")
 					else
 						var/variable = t1[2]
 						var/string = get_data(t1[3])
 						var/start = text2num(get_data(t1[4]))
 						var/end = 0
-						if(t1.len >= 5)
+						if(length(t1) >= 5)
 							end = text2num(get_data(t1[5]))
 						if(start <= 0) start = 1
 						if(end < length(string))
@@ -263,7 +263,7 @@ datum/task/proc/parse()
 							set_data(variable, copytext(string,start))
 					counter++
 				if("replacetext")
-					if(t1.len < 5)
+					if(length(t1) < 5)
 						src.master.show_message("Not enough parameters for replacetext")
 					else
 						var/variable = t1[2]
@@ -276,7 +276,7 @@ datum/task/proc/parse()
 						set_data(variable, replacetext(string,find,replace))
 					counter++
 				if("findtext")
-					if(t1.len < 4)
+					if(length(t1) < 4)
 						src.master.show_message("Not enough parameters for findtext")
 					else
 						var/variable = t1[2]
@@ -284,9 +284,9 @@ datum/task/proc/parse()
 						var/find = get_data(t1[4])
 						var/start = 1
 						var/end = length(string)
-						if(t1.len >= 5)
+						if(length(t1) >= 5)
 							start = text2num(get_data(t1[5]))
-						if(t1.len >= 6)
+						if(length(t1) >= 6)
 							end = text2num(get_data(t1[6]))
 						if(start <= 0) start = 1
 						if(end > length(string)) end = length(string)
@@ -377,11 +377,11 @@ datum/task/proc/parse()
 				if("eval")
 					var/v1 = get_data(t1[2])
 					var/v2
-					if(t1.len >= 4)
+					if(length(t1) >= 4)
 						v2 = get_data(t1[4])
 					var/n = text2num(v1)
 					var/n2 = 0
-					if(t1.len >= 4)
+					if(length(t1) >= 4)
 						n2 = text2num(v2)
 					switch(t1[3])
 						if("+=")
@@ -461,12 +461,12 @@ datum/task/proc/parse()
 						src.master.parse_string(dta, src)
 					counter++
 				if("end")
-					if ((t1.len >= 2 && (t1[2] && src.master)))
+					if ((length(t1) >= 2 && (t1[2] && src.master)))
 						src.master.err_level = get_data(t1[2])
 					del(src)
 					return
 				if("if")
-					if (t1.len >= 5)
+					if (length(t1) >= 5)
 						var/go_on = FALSE
 
 						switch(t1[3])
@@ -509,11 +509,11 @@ datum/task/proc/parse()
 					else
 						counter++
 				if("linenum")
-					if (t1.len >= 2)
+					if (length(t1) >= 2)
 						set_data(t1[2], "[counter]")
 						counter++
 				if("call")
-					if (t1.len >= 2)
+					if (length(t1) >= 2)
 						var/cnt = get_label(t1[2], goto_array)
 						if (cnt > 0)
 							set_data("retindex", "[text2num(get_data("retindex")) + 1]")
@@ -525,7 +525,7 @@ datum/task/proc/parse()
 				else
 					if(t1[1])
 						if (src.master)
-							src.master.show_message("Invalid command: [t1[1]] ([t1.len])")
+							src.master.show_message("Invalid command: [t1[1]] ([length(t1)])")
 					counter++
 		else
 			counter++

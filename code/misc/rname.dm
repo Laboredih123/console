@@ -1,3 +1,3 @@
-atom/New()
+/atom/New()
 	src.rname = src.name
 	..()

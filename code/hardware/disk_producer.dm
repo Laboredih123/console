@@ -1,10 +1,10 @@
 /obj/signal/disk_producer
-			name = "Disk Mass Production"
-			icon = 'icons/computer.dmi'
-			icon_state = "massdisk"
-			density = TRUE
-			var/obj/items/disk/cur_disk
-			var/tmp/busy = FALSE
+	name = "Disk Mass Production"
+	icon = 'icons/computer.dmi'
+	icon_state = "massdisk"
+	density = TRUE
+	var/obj/items/disk/cur_disk
+	var/tmp/busy = FALSE
 
 /obj/signal/disk_producer/attack_hand(mob/user)
 	if(busy)
@@ -20,7 +20,7 @@
 	else
 		..()
 
-/obj/signal/disk_producer/attack_by(obj/O,mob/user)
+/obj/signal/disk_producer/attack_by(obj/O, mob/user)
 	if(busy)
 		user << "Please wait to use this machine."
 		return

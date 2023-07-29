@@ -1,11 +1,11 @@
 // /obj/signal/intercom (DEF)
 
 /obj/signal/intercom
-		name = "intercom"
-		icon = 'icons/computer.dmi'
-		icon_state = "intercom"
-		var/obj/signal/line1 = null
-		var/state = 0
+	name = "intercom"
+	icon = 'icons/computer.dmi'
+	icon_state = "intercom"
+	var/obj/signal/line1 = null
+	var/state = 0
 
 /obj/signal/intercom/hear(msg in view(usr.client), atom/source as mob|obj|turf|area in view(usr.client), s_type in view(usr.client), c_mes in view(usr.client), r_src as mob|obj|turf|area in view(usr.client))
 	if(!ismob(source)) return
@@ -21,7 +21,7 @@
 			else
 				S.s_source = "[source]"
 		S.name = "record.vcl"
-		var/obj/signal/structure/S1 = new /obj/signal/structure( src.loc )
+		var/obj/signal/packet/S1 = new /obj/signal/packet( src.loc )
 		S1.master = src
 		S1.cur_file = S
 		S1.id = "-1"
@@ -34,7 +34,7 @@
 	src.state = FALSE
 	src.icon_state = "intercom"
 
-/obj/signal/intercom/disconnectfrom(S as obj in view(usr.client))
+/obj/signal/intercom/disconnectfrom(obj/S)
 	if (S == src.line1)
 		src.line1 = null
 
@@ -46,7 +46,7 @@
 		src.line1.disconnectfrom(src)
 	src.line1 = null
 
-/obj/signal/intercom/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/intercom/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return FALSE
@@ -56,7 +56,7 @@
 		src.line1 = target
 		return TRUE
 
-/obj/signal/intercom/process_signal(obj/signal/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/intercom/process_signal(obj/signal/S, obj/source)
 	..()
 	if(isnull(S))return
 	if (S.cur_file)

@@ -3,6 +3,7 @@
 	icon = 'icons/computer.dmi'
 	icon_state = "sign_box"
 	dir = SOUTH
+	anchored = TRUE
 
 	var/sign_dir = SOUTH
 	var/tmp/obj/new_sign/my_sign
@@ -41,7 +42,7 @@
 		line1.disconnectfrom(src)
 	line1 = null
 
-/obj/signal/sign_box/process_signal(obj/signal/structure/S,obj/source)
+/obj/signal/sign_box/process_signal(obj/signal/packet/S,obj/source)
 	..()
 	if(isnull(S))return
 	S.loc = src.loc

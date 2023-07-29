@@ -30,7 +30,7 @@
 		line1.disconnectfrom(src)
 	line1 = null
 
-/obj/signal/shutter_box/process_signal(obj/signal/structure/S,obj/source)
+/obj/signal/shutter_box/process_signal(obj/signal/packet/S,obj/source)
 	..()
 	if(isnull(S))return
 	S.loc = src.loc

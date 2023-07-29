@@ -5,25 +5,21 @@
 	var/amount = 1
 	var/laying = FALSE
 	var/obj/signal/old_lay = null
-	var/w_color = "black"
 	var/scolor = "black"
 	var/label
 
 /obj/items/wire/New()
 	..()
-	if(!color) color = "black"
 	if(!scolor) scolor = "black"
 	if(src.type == /obj/signal/wire/hyper||src.type == /obj/items/wire/hyper)
-		color = "hyper"
 		scolor = "hyper"
 		src.verbs -= /obj/items/wire/verb/Color_Wire
 	src.update()
 
-/obj/items/wire/attack_by(obj/P in view(usr.client), user as mob in view(usr.client))
+/obj/items/wire/attack_by(obj/P, mob/user)
 	if ((istype(P, /obj/items/paint) && src.loc == user))
 		var/i = input(user, "What color?", "Paint", null) in list( "black", "red", "blue", "green" )
 		if ((src.loc == user && P.loc == user))
-			src.color = i
 			src.scolor = i
 		src.update()
 
@@ -32,7 +28,6 @@
 	if(!ismob(src.loc)) return
 	var/n_color = input("What color do you want to make the wire?")as null|anything in list("red","green","blue","black")
 	if(!n_color) return
-	color = "[n_color]"
 	scolor = "[n_color]"
 	update()
 
@@ -60,13 +55,13 @@
 	for(var/obj/items/wire/target in src.loc)
 		if (target != src && src.type == target.type&&src.scolor==target.scolor)
 			src.amount += target.amount
-			src.color = target.color
+			src.scolor = target.color
 			if (usr.equipped == target)
 				target.rem_equip(usr)
 			del(target)
 	src.update()
 
-/obj/items/wire/Write(F in view(usr.client))
+/obj/items/wire/Write(F)
 	src.old_lay = null
 	..(F)
 
@@ -74,13 +69,13 @@
 	..()
 	src.stop_laying()
 
-/obj/items/wire/moved(mob/user as mob in view(usr.client), turf/old_loc as turf in view(usr.client))
+/obj/items/wire/moved(mob/user, turf/old_loc)
 	if ((src.laying && (src.old_lay && get_dist(src.old_lay, user) > 1)))
 		src.laying = FALSE
 	if ((src.laying && (src.amount >= 1 && src.old_lay)))
 		var/obj/signal/wire/W = new /obj/signal/wire( user.loc )
-		if (src.color)
-			switch(src.color)
+		if (src.scolor)
+			switch(src.scolor)
 				if("blue")
 					W.icon = 'icons/b_wire.dmi'
 				if("green")
@@ -113,25 +108,40 @@
 			user << "<B>You were unable to connect the wire to the target!</B>"
 			src.laying = FALSE
 
-/obj/items/wire/proc/wire(mob/target as mob|obj|turf|area in view(usr.client), mob/user as mob in view(usr.client))
-	var/obj/signal/S = target
-	if (!( istype(S, /obj/signal) ))
+/obj/items/wire/proc/wire(obj/signal/target, mob/user)
+	if (!(istype(target)))
 		return
-	if ((!( S.pos_status & user.pos_status ) && S.loc != user.loc))
+	if ((!( target.pos_status & user.pos_status ) && target.loc != user.loc))
 		user << "You must be on the same tile to bridge a connection into the vents."
 		return
 	if (!( src.laying ))
+		if (istype(target, /obj/signal/wire))
+			var/colorofcable
+			switch(target.icon)
+				if('icons/b_wire.dmi')
+					colorofcable = "blue"
+				if('icons/g_wire.dmi')
+					colorofcable = "green"
+				if('icons/r_wire.dmi')
+					colorofcable = "red"
+				if('icons/hyperwire.dmi')
+					colorofcable = "hyper"
+				if('icons/wire.dmi')
+					colorofcable = "black"
+			if (colorofcable != src.scolor)
+				user << "The color doesn't match!"
+				return
 		src.laying = TRUE
-		src.old_lay = S
+		src.old_lay = target
 		moved(user, null)
 	else
 		src.laying = FALSE
-		if(S)
-			if ((src.old_lay.orient_to(S) && S.orient_to(src.old_lay, user)))
+		if(target)
+			if ((src.old_lay.orient_to(target) && target.orient_to(src.old_lay, user)))
 				user << "Your done laying wire!"
 			else
-				src.old_lay.disconnectfrom(S)
-				S.disconnectfrom(src.old_lay)
+				src.old_lay.disconnectfrom(target)
+				target.disconnectfrom(src.old_lay)
 
 /obj/items/wire/proc/update()
 	if (src.amount > 1)
@@ -157,5 +167,4 @@
 /obj/items/wire/hyper
 	name = "hyper"
 	icon_state = "item_hyperwire"
-	w_color = "hyper"
 	scolor = "hyper"

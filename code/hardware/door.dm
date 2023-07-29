@@ -4,6 +4,8 @@
 	icon_state = "door1_1"
 	opacity = TRUE
 	density = TRUE
+	anchored = TRUE
+
 	var/obj/door/connected = null
 	var/operating = FALSE
 

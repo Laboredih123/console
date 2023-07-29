@@ -2,7 +2,7 @@
 	name = "hyper"
 	icon = 'icons/hyperwire.dmi'
 
-/obj/signal/wire/hyper/orient_to(S as obj in view(usr.client), user as mob in view(usr.client))
+/obj/signal/wire/hyper/orient_to(obj/S, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return 0
@@ -12,7 +12,7 @@
 	else
 		return ..()
 
-/obj/signal/wire/hyper/process_signal(obj/signal/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/wire/hyper/process_signal(obj/signal/S, obj/source)
 	..()
 	if(!S) return
 	S.loc = src.loc

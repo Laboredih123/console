@@ -10,9 +10,6 @@
 	var/label
 	var/w_color
 
-/obj/signal/wire/verb/examine()
-	set src in world
-
 /obj/signal/wire/cut(force=0)
 	if (src.line1)
 		src.line1.disconnectfrom(src)
@@ -149,7 +146,7 @@
 		return
 	return src.direction
 
-/obj/signal/wire/orient_to(obj/signal/target in view(usr.client),mob/user)
+/obj/signal/wire/orient_to(obj/signal/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return 0
@@ -169,7 +166,7 @@
 	src.update()
 	return TRUE
 
-/obj/signal/wire/disconnectfrom(source as obj in view(usr.client))
+/obj/signal/wire/disconnectfrom(obj/source)
 	if (src.line1 == source)
 		src.line1 = null
 	else
@@ -182,7 +179,7 @@
 		src.update()
 
 /obj/signal/wire/Del()
-	for(var/obj/signal/structure/S in src.loc)
+	for(var/obj/signal/packet/S in src.loc)
 		if (S.master == src)
 			del(S)
 
@@ -194,7 +191,7 @@
 	src.line2 = null
 	..()
 
-/obj/signal/wire/process_signal(obj/signal/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/wire/process_signal(obj/signal/S, obj/source)
 	..()
 	if(!S) return
 

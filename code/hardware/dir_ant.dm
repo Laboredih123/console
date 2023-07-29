@@ -1,15 +1,21 @@
 // /obj/signal/dir_ant (DEF)
 
 /obj/signal/dir_ant
-	name = "dir ant"
+	name = "direct antenna"
 	icon = 'icons/computer.dmi'
 	icon_state = "dir_ant"
-	place_locked = TRUE
+	desc = "An antenna that beams info to another direct antenna in it's path."
+	anchored = TRUE
 	density = TRUE
 	var/obj/signal/line1 = null
 	var/obj/signal/control = null
 
-/obj/signal/dir_ant/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/dir_ant/New()
+	..()
+	src.verbs += /obj/signal/proc/get_me
+	src.verbs += /obj/signal/proc/drop_me
+
+/obj/signal/dir_ant/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return FALSE
@@ -28,13 +34,13 @@
 /obj/signal/dir_ant/d_accept()
 	return TRUE
 
-/obj/signal/dir_ant/disconnectfrom(obj/target in view(usr.client))
-
+/obj/signal/dir_ant/disconnectfrom(obj/target)
 	if (target == src.line1)
 		src.line1 = null
 	else
 		if (target == src.control)
 			src.control = null
+
 /obj/signal/dir_ant/cut()
 	if (src.line1)
 		src.line1.disconnectfrom(src)
@@ -43,7 +49,7 @@
 	src.line1 = null
 	src.control = null
 
-/obj/signal/dir_ant/process_radio(obj/signal/structure/S as obj in view(usr.client),atom/source)
+/obj/signal/dir_ant/process_radio(obj/signal/packet/S, atom/source)
 	S.loc = src
 	S.master = src
 	spawn( 0 )
@@ -51,7 +57,7 @@
 			src.line1.process_signal(S, src)
 		else
 			del(S)
-/obj/signal/dir_ant/process_signal(obj/signal/structure/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/dir_ant/process_signal(obj/signal/packet/S, obj/source)
 	..()
 	S.loc = null
 	S.master = src
@@ -65,7 +71,7 @@
 			cur_tile = last_tile
 			found_ant = locate() in next_tile
 		if(found_ant)
-			var/obj/signal/structure/S1 = new()
+			var/obj/signal/packet/S1 = new()
 			S.copy_to(S1)
 			found_ant.process_radio(S1,src)
 	else

@@ -51,7 +51,7 @@
 
 /mob/verb/who()
 	usr << "<B>Players:</B>"
-	for(var/mob/M in world)
+	for(var/mob/M as anything in by_type[/mob])
 		usr << "\t[M]"
 
 /mob/verb/shout(msg as text)
@@ -117,7 +117,7 @@
 					A.hear("\icon[src]<B>[usr.name]</B> says, '[msg]'", src, 2, msg, src)
 			for(var/obj/signal/teleport_pad/TP in view(src))
 				if(TP.charged&&TP.primed)
-					var/obj/signal/teleport_pad/T2 = locate("teleport_[TP.charged_destination]") in world
+					var/obj/signal/teleport_pad/T2 = locate("teleport_[TP.charged_destination]")
 					if(T2)
 						if(T2.charged&&T2.primed)
 							for(var/mob/M in view(T2))

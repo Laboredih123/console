@@ -16,7 +16,7 @@
 	var/I = new O.type( src.loc )
 	if(istype(I,/obj/signal))
 		var/obj/signal/T = I
-		T.place_locked = FALSE
+		T.anchored = FALSE
 		T.density = FALSE
 		T.verbs += /obj/signal/proc/get_me
 		T.verbs += /obj/signal/proc/drop_me
@@ -58,7 +58,7 @@
 	var/I = new O.type( src.loc )
 	if(istype(I,/obj/signal))
 		var/obj/signal/T = I
-		T.place_locked = FALSE
+		T.anchored = FALSE
 		T.density = FALSE
 		T.verbs += /obj/signal/proc/get_me
 		T.verbs += /obj/signal/proc/drop_me

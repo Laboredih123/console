@@ -3,11 +3,11 @@
 	icon = 'icons/computer.dmi'
 	icon_state = "converter"
 	density = TRUE
-	place_locked = TRUE
+	anchored = TRUE
 	var/obj/signal/line1 = null
 	var/obj/signal/line2 = null
 
-/obj/signal/converter/orient_to(obj/target in view(usr.client),mob/user)
+/obj/signal/converter/orient_to(obj/target,mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return FALSE
@@ -20,13 +20,13 @@
 		src.line1 = target
 	return TRUE
 
-/obj/signal/converter/disconnectfrom(obj/source as obj in view(usr.client))
+/obj/signal/converter/disconnectfrom(obj/source)
 	if (src.line1 == source)
 		src.line1 = null
 	else
 		src.line2 = null
 
-/obj/signal/converter/process_signal(obj/signal/structure/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/converter/process_signal(obj/signal/packet/S, obj/source)
 	..()
 	if(isnull(S))return
 	S.loc = src.loc

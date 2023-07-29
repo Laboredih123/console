@@ -1,8 +1,8 @@
 /obj/signal/scanner
-			name = "Paper Scanner"
-			icon = 'icons/computer.dmi'
-			icon_state = "paper_scanner"
-			var/obj/signal/line1
+	name = "Paper Scanner"
+	icon = 'icons/computer.dmi'
+	icon_state = "paper_scanner"
+	var/obj/signal/line1
 
 /obj/signal/scanner/orient_to(obj/target,mob/user)
 	if(ismob(src.loc))
@@ -31,7 +31,7 @@
 			if(istype(user.equipped,/obj/items/paper))
 				var/obj/items/paper/P = user.equipped
 				user << "Paper scanned and sent."
-				var/obj/signal/structure/S = new()
+				var/obj/signal/packet/S = new()
 				S.id = "-1"
 				var/datum/file/normal/N = new()
 				N.name = "scanner"

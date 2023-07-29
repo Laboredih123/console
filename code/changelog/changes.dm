@@ -1,20 +1,20 @@
 var/tmp/change_css
-world
-	New()
-		..()
-		change_css = file2text('code/changelog/changes.css')
-mob
-	Login()
-		..()
-		if(save_version != "[n_version][n_sub]")
-			save_version = "[n_version][n_sub]"
-			switch(alert("There have been changes since your last visit, would you like to view them now?",,"Yes","No"))
-				if("Yes") src << link("byond://?changes")
-client
-	Topic(href)
-		..()
-		if(href=="changes")
-			mob << browse({"
+
+/world/New()
+	..()
+	change_css = file2text('code/changelog/changes.css')
+
+/mob/Login()
+	..()
+	if(save_version != "[n_version][n_sub]")
+		save_version = "[n_version][n_sub]"
+		switch(alert("There have been changes since your last visit, would you like to view them now?",,"Yes","No"))
+			if("Yes") src << link("byond://?changes")
+
+/client/Topic(href)
+	..()
+	if(href=="changes")
+		mob << browse({"
 <HTML>
 <HEAD>
 <TITLE>Changes</TITLE>

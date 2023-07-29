@@ -1,18 +1,3 @@
-/mob
-	var/tmp/obj/infared/beam/in_beam
-
-/mob/Move()
-	. = ..()
-	if(.)
-		var/fb = FALSE
-		for(var/obj/infared/beam/B in src.loc)
-			fb = TRUE
-			if(in_beam != B.master)
-				if(B.master)
-					B.master.Signal()
-					in_beam = B.master
-		if(!fb) in_beam = null
-
 /obj/signal/infared
 	density = TRUE
 	name = "Infared Signaler"
@@ -27,7 +12,7 @@
 
 /obj/signal/infared/proc/Signal()
 	if(line1)
-		var/obj/signal/structure/S = new()
+		var/obj/signal/packet/S = new()
 		S.id = "signaler"
 		line1.process_signal(S,src)
 	else
@@ -36,7 +21,7 @@
 /obj/signal/infared/proc/moved()
 	return TRUE
 
-/obj/signal/infared/process_signal(obj/signal/structure/S)
+/obj/signal/infared/process_signal(obj/signal/packet/S)
 	..()
 	if(isnull(S))
 		return
@@ -44,7 +29,7 @@
 	var/list/params = splittext(S.params,ascii2text(2))
 
 	if(id == "power")
-		if(params.len >= 1)
+		if(length(params) >= 1)
 			if(params[1] == "0")
 				src.activate()
 			else if(params[1] == "1")
@@ -188,7 +173,12 @@
 	icon = 'icons/infared.dmi'
 	icon_state = "beam"
 	layer = MOB_LAYER+1
+	anchored = TRUE
 
 /obj/infared/beam
 		name = ""
 		var/obj/signal/infared/master
+
+/obj/infared/beam/Crossed(atom/movable/AM)
+	if (istype(AM, /obj/infared/beam))
+		return

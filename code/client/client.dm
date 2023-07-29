@@ -17,7 +17,7 @@
 		new /obj/items/pen( src.mob )
 		new /obj/items/gps( src.mob )
 		src.mob.save_version = "[n_version][n_sub]"
-		//src.mob.saving = TRUE
+		src.mob.saving = TRUE
 	else
 		var/savefile/F = new("saves/players/[src.ckey].sav")
 		F >> src.mob
@@ -42,9 +42,13 @@
 				mob.verbs += H
 
 /client/Del()
-	if ((src.mob && src.mob.saving == "yes"))
+	if ((src.mob && src.mob.saving == TRUE))
 		var/savefile/F = new /savefile( "saves/players/[src.ckey].sav" )
 		F << src.mob
 	world << "<B>[src] has logged out!</B>"
 	del(src.mob)
 	..()
+
+/mob/verb/examine_verb(atom/A as mob|obj|turf in view(usr))
+	set name = "Examine"
+	usr << A.examine()

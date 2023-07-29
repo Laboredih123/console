@@ -1,13 +1,13 @@
 // /obj/signal/microphone (DEF)
 
 /obj/signal/microphone
-		name = "microphone"
-		icon = 'icons/computer.dmi'
-		icon_state = "microphone_0"
-		var/obj/signal/line1 = null
-		var/state = 0
+	name = "microphone"
+	icon = 'icons/computer.dmi'
+	icon_state = "microphone_0"
+	var/obj/signal/line1 = null
+	var/state = 0
 
-/obj/signal/microphone/disconnectfrom(S as obj in view(usr.client))
+/obj/signal/microphone/disconnectfrom(obj/S)
 	if (S == src.line1)
 		src.line1 = null
 
@@ -16,7 +16,7 @@
 		src.line1.disconnectfrom(src)
 	src.line1 = null
 
-/obj/signal/microphone/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/microphone/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return FALSE
@@ -40,7 +40,7 @@
 			else
 				S.s_source = "[source]"
 		S.name = "record.vcl"
-		var/obj/signal/structure/S1 = new /obj/signal/structure( src.loc )
+		var/obj/signal/packet/S1 = new /obj/signal/packet( src.loc )
 		S1.master = src
 		S1.cur_file = S
 		S1.id = "-1"
@@ -51,7 +51,7 @@
 			if (src.line1)
 				src.line1.process_signal(S1, src)
 
-/obj/signal/microphone/process_signal(S as obj in view(usr.client), source as obj in view(usr.client))
+/obj/signal/microphone/process_signal(obj/S, obj/source)
 	..()
 	del(S)
 

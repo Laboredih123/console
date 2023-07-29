@@ -5,7 +5,7 @@
 	density = TRUE
 	var/obj/signal/line1 = null
 
-/obj/signal/notarizer/attack_by(obj/items/P in view(usr.client), user in view(usr.client))
+/obj/signal/notarizer/attack_by(obj/items/P, mob/user)
 	if (istype(P, /obj/items/paper))
 		P.unequip()
 		P.loc = null
@@ -14,7 +14,7 @@
 	else
 		..()
 
-/obj/signal/notarizer/disconnectfrom(S as obj in view(usr.client))
+/obj/signal/notarizer/disconnectfrom(obj/S)
 	if (S == src.line1)
 		src.line1 = null
 
@@ -23,7 +23,7 @@
 		src.line1.disconnectfrom(src)
 	src.line1 = null
 
-/obj/signal/notarizer/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/notarizer/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return FALSE
@@ -33,7 +33,7 @@
 		src.line1 = target
 		return TRUE
 
-/obj/signal/notarizer/process_signal(obj/signal/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/notarizer/process_signal(obj/signal/S, obj/source)
 	..()
 	if(isnull(S))return
 	S.loc = null
@@ -49,7 +49,7 @@
 			if (src.line1)
 				src.line1.process_signal(S, src)
 
-/obj/signal/notarizer/proc/notorize(obj/items/paper/P in view(usr.client))
+/obj/signal/notarizer/proc/notorize(obj/items/paper/P)
 	if (!( istype(src.file, /datum/file/normal) ))
 		return
 	else

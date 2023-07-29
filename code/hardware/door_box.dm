@@ -2,10 +2,12 @@
 	name = "box"
 	icon = 'icons/computer.dmi'
 	icon_state = "box"
+	anchored = TRUE
+	id = "0"
+
 	var/keycode = null
 	var/doorcode_ref = null
 	var/obj/door/connected = null
-	id = "0"
 	var/s_id = "0"
 	var/d_id = "0"
 	var/d_dir = 10
@@ -28,7 +30,7 @@
 			src.keycode = door_codes[doorcode_ref]
 	..()
 
-/obj/signal/box/disconnectfrom(S as obj in view(usr.client))
+/obj/signal/box/disconnectfrom(obj/S)
 	if (S == src.line1)
 		src.line1 = null
 
@@ -37,7 +39,7 @@
 		src.line1.disconnectfrom(src)
 	src.line1 = null
 
-/obj/signal/box/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/box/orient_to(obj/target, mob/user)
 	if (target.loc == src.loc)
 		if (src.line1)
 			return FALSE
@@ -47,7 +49,7 @@
 	else
 		user << "You must be on the same tile of this to operate it."
 
-/obj/signal/box/process_signal(obj/signal/structure/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/box/process_signal(obj/signal/packet/S, obj/source)
 	..()
 	if(isnull(S))return
 	spawn( 2 )
@@ -66,7 +68,7 @@
 
 /obj/signal/box/proc/receive(code in view(usr.client))
 	if (src.line1)
-		var/obj/signal/structure/S1 = new /obj/signal/structure( src )
+		var/obj/signal/packet/S1 = new /obj/signal/packet( src )
 		S1.id = "dqry"
 		S1.dest_id = src.d_id
 		S1.source_id = src.s_id

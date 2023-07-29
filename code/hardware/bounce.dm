@@ -3,10 +3,11 @@
 /obj/signal/bounce
 	name = "bounce"
 	icon = 'icons/computer.dmi'
+	desc = "After 2 ticks, echoes the signal back."
 	icon_state = "bounce"
 	var/obj/signal/line1 = null
 
-/obj/signal/bounce/disconnectfrom(S as obj in view(usr.client))
+/obj/signal/bounce/disconnectfrom(S)
 	if (S == src.line1)
 		src.line1 = null
 
@@ -15,7 +16,7 @@
 		src.line1.disconnectfrom(src)
 	src.line1 = null
 
-/obj/signal/bounce/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/bounce/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return FALSE
@@ -29,7 +30,7 @@
 		user << "You are not close enough to connect to that device."
 		return FALSE
 
-/obj/signal/bounce/process_signal(S as obj in view(usr.client), source as obj in view(usr.client))
+/obj/signal/bounce/process_signal(S, source)
 	..()
 	if(isnull(S))return
 	spawn( 2 )

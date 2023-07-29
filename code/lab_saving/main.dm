@@ -17,7 +17,7 @@
 		spawn(1)
 			loc = locate(save_x,save_y,save_z)
 
-/obj/signal/structure/Write(savefile/F)
+/obj/signal/packet/Write(savefile/F)
 	return
 
 /obj/signal/wire/Write(savefile/F)
@@ -67,6 +67,7 @@
 	// So I can see the areas while mapping, but not in-game.
 	icon = null
 	layer = AREA_LAYER
+
 /area/save_location/proc/Save()
 	fdel("saves/labs/new/[ckey(src.name)].lab")
 	var/savefile/F = new("saves/labs/new/[ckey(src.name)].lab")
@@ -131,7 +132,7 @@
 // For saving all of the labs in a loop.
 /proc/SaveLabs()
 	world.log << "<b>Beginning lab saving process!</b>"
-	for(var/area/save_location/S in world)
+	for(var/area/save_location/S as anything in by_type[/area/save_location])
 		if(S.auto_save)
 			world.log << "Saving lab: [S.name] ([S.contents.len])...\..."
 			S.Save()
@@ -141,10 +142,7 @@
 
 /proc/LoadLabs()
 	world.log << "<b>Beginning lab loading process!</b>"
-	var/list/labs = list()
-	for(var/area/save_location/S in world)
-		labs.Add(S)
-	for(var/area/save_location/S in labs)
+	for(var/area/save_location/S as anything in by_type[/area/save_location])
 		if(S.auto_save)
 			world << "Loading lab [S.name]...\..."
 			S.Load(world)
@@ -152,8 +150,7 @@
 	world.log << "All labs loaded successfully."
 
 // Lab owner commands
-/mob
-	var/tmp/list/my_labs = list()
+/mob/var/tmp/list/my_labs = list()
 
 /mob/labcontrol/proc/ForceLabDoor()
 	set name = "Force Lab Door"
@@ -203,7 +200,7 @@
 /mob/Login()
 	..()
 	var/has_lab = FALSE
-	for(var/area/save_location/L in world)
+	for(var/area/save_location/L as anything in by_type[/area/save_location])
 		if(ckey(L.owner) == src.ckey)
 			my_labs += L
 			has_lab = TRUE

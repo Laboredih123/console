@@ -22,14 +22,14 @@ var/motd = ""
 	LoadMOTD()
 
 	// Initialize with loaded config.
-	for(var/obj/s)
-		s.Initialize()
+	for(var/atom/A as anything in world)
+		A.Initialize()
 
 	LoadLabs()
 
 	// Spawn a process to save the labs every 5 minutes.
 	spawn(1)
-		while(1)
+		while(TRUE)
 			sleep(3000)
 			SaveLabs()
 
@@ -39,7 +39,4 @@ var/motd = ""
 /obj
 	layer = OBJ_LAYER
 	var/list/bugs = list()
-
-
-/obj
 	var/obj/items/lock/lock

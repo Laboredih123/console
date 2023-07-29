@@ -6,7 +6,7 @@
 /obj/signal/computer/laptop/orient_to()
 	return 0
 
-/obj/signal/computer/laptop/attack_by(obj/items/D in view(usr.client), mob/user as mob in view(usr.client))
+/obj/signal/computer/laptop/attack_by(obj/items/D, mob/user)
 	if (istype(D, /obj/items/disk))
 		if (!( src.disk ))
 			D.unequip()
@@ -40,14 +40,14 @@
 	else
 		return ..()
 
-/obj/signal/computer/laptop/send_out(obj/signal/structure/S)
+/obj/signal/computer/laptop/send_out(obj/signal/packet/S)
 	S.loc = null
 	S.master = src
 	for(var/obj/signal/C)
 		if(C == src) continue
 		if ((get_dist(C.loc, src.loc) <= 50 && C != src))
 			if (C.r_accept(src.e_key, src))
-				var/obj/signal/structure/S1 = new /obj/signal/structure(  )
+				var/obj/signal/packet/S1 = new /obj/signal/packet(  )
 				S.copy_to(S1)
 				S1.strength -= 2
 				if (S1.strength <= 0)
@@ -57,7 +57,7 @@
 					C.process_radio(S1,src)
 	del(S)
 
-/obj/signal/computer/laptop/process_radio(obj/signal/structure/S,atom/source)
+/obj/signal/computer/laptop/process_radio(obj/signal/packet/S,atom/source)
 	S.loc = src
 	S.master = src
 	spawn(0)
@@ -104,7 +104,7 @@
 	src.pos_status = 2
 	src.invisibility = 0
 	src.layer = OBJ_LAYER
-	for(var/obj/signal/structure/S in src.loc)
+	for(var/obj/signal/packet/S in src.loc)
 		if (S.master == src)
 			S.loc = null
 	src.loc = usr

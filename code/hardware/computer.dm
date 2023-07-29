@@ -26,7 +26,7 @@
 	var/sys_stat = 0
 	var/cur_prog = null
 	var/source
-	var/list/bugslist()
+	var/list/bugslist = list()
 	var/list/tmp/tasks = list()
 	var/label
 	var/list/environment = list()
@@ -38,7 +38,7 @@
 	if(line2) line2.cut()
 
 /obj/signal/computer/Write(F)
-	for(var/obj/signal/structure/S in src)
+	for(var/obj/signal/packet/S in src)
 		del(S)
 	..()
 
@@ -114,12 +114,12 @@
 	else
 		usr.using_computer = null
 
-/obj/signal/computer/proc/send_out(obj/S as obj in view(usr.client), obj/signal/target in view(usr.client))
+/obj/signal/computer/proc/send_out(obj/S as obj, obj/signal/target)
 	spawn( 1 )
 		if (target)
 			target.process_signal(S, src)
 
-/obj/signal/computer/proc/insert_disk(obj/D in view(usr.client))
+/obj/signal/computer/proc/insert_disk(obj/D)
 	if (src.disk)
 		src.eject_disk()
 	else
@@ -145,7 +145,7 @@
 /obj/signal/computer/proc/stop(console=1)
 	src.status = "off"
 	src.sys_stat = 0
-	for(var/obj/signal/structure/S in src.loc)
+	for(var/obj/signal/packet/S in src.loc)
 		if (S.master == src)
 			del(S)
 
@@ -206,7 +206,7 @@
 		src.show_message("System Resource ERROR: Kernel not located. Shutting down...")
 		return stop()
 
-/obj/signal/computer/proc/bios(password in view(usr.client))
+/obj/signal/computer/proc/bios(password)
 	if (!( src.bios_level ))
 		if (src.bios1)
 			if (src.bios_pass1)
@@ -377,17 +377,17 @@
 				return bios_done()
 
 /obj/signal/computer/proc/ex_trun_list(list/L,target,pos)
-	if (L.len <= target)
+	if (length(L) <= target)
 		return L
 	else
 		if (pos)
-			while(L.len > target)
+			while(length(L) > target)
 				L[1] = null
 				L -= null
 			return L
 		else
-			while(L.len > target)
-				L[L.len] = null
+			while(length(L) > target)
+				L[length(L)] = null
 				L -= null
 	return L
 
@@ -447,7 +447,7 @@
 			if (params == "boot")
 				boot()
 
-/obj/signal/computer/proc/parse_string(string in view(usr.client), source in view(usr.client))
+/obj/signal/computer/proc/parse_string(string, source)
 	var/list/t1 = list(  )
 	t1 = splittext(string, ";")
 	for(var/x in t1)
@@ -455,12 +455,12 @@
 		t2 = splittext(x, " ")
 		src.execute(t2[1], jointext(t2 - t2[1], "[ascii2text(2)]"), source)
 
-/obj/signal/computer/proc/makedir(string in view(usr.client), datum/file/dir/D in view(usr.client))
+/obj/signal/computer/proc/makedir(string, datum/file/dir/D)
 	var/list/L = splittext(string, "/")
 	if (!( D ))
 		return
 	var/t7
-	if ((L && L.len))
+	if ((L && length(L)))
 		t7 = L[1]
 	else
 		t7 = string
@@ -479,7 +479,7 @@
 		var/list/I = list(  )
 		var/x = null
 		x = 2
-		while(x <= L.len)
+		while(x <= length(L))
 			I += L[x]
 			x++
 		return src.makedir(jointext(I, "/"), D2)
@@ -509,11 +509,11 @@
 		return null
 	var/F = src.level
 	var/list/L = splittext(string, "/")
-	if (!( L.len ))
+	if (!( length(L) ))
 		return null
 	var/i = null
 	i = 1
-	while(i <= L.len)
+	while(i <= length(L))
 		if ((i && L[i]))
 			if (L[i] == "root")
 				F = src.root
@@ -530,12 +530,12 @@
 		i++
 	return F
 
-/obj/signal/computer/proc/parse2file(string in view(usr.client))
+/obj/signal/computer/proc/parse2file(string)
 	if (!( string ))
 		return null
 	var/F = src.level
 	var/list/L = splittext(string, "/")
-	if (!( L.len ))
+	if (!( length(L) ))
 		return null
 	if (copytext(string, 1, 2) == "/")
 		F = src.root
@@ -555,7 +555,7 @@
 						return null
 	var/i = null
 	i = 2
-	while(i <= L.len)
+	while(i <= length(L))
 		if (L[i])
 			F = src.get_file2(L[i], F)
 			if (!( F ))
@@ -576,7 +576,7 @@
 		t2.files += src.cur_log
 	src.cur_log.text += "[string];"
 
-/obj/signal/computer/attack_hand(user as mob in view(usr.client))
+/obj/signal/computer/attack_hand(mob/user)
 	if (istype(src.lock, /obj/items/lock))
 		var/t = src.lock
 		var/d = src.loc
@@ -584,7 +584,7 @@
 			src.lock.loc = src.loc
 			src.lock = null
 
-/obj/signal/computer/attack_by(obj/items/D in view(usr.client), mob/user as mob in view(usr.client))
+/obj/signal/computer/attack_by(obj/items/D, mob/user)
 	if (istype(D, /obj/items/disk))
 		if (!( src.disk ))
 			D.unequip()
@@ -693,7 +693,7 @@
 										else
 											..()
 
-/obj/signal/computer/process_signal(obj/signal/structure/S as obj in view(usr.client), obj/source as obj in view(usr.client))
+/obj/signal/computer/process_signal(obj/signal/packet/S, obj/source)
 	..()
 	if(!S) return
 	if (istype(S.loc, /turf))
@@ -772,7 +772,7 @@
 						t2.execute(t7)
 	del(S)
 
-/obj/signal/computer/orient_to(obj/target in view(usr.client), user as mob in view(usr.client))
+/obj/signal/computer/orient_to(obj/target, mob/user)
 	if(ismob(src.loc))
 		user << "Device must be on the ground to connect to it."
 		return FALSE
@@ -787,7 +787,7 @@
 		else
 			return FALSE
 
-/obj/signal/computer/disconnectfrom(source as obj in view(usr.client))
+/obj/signal/computer/disconnectfrom(obj/source)
 	if (src.line1 == source)
 		src.line1 = null
 	else
@@ -921,3 +921,40 @@
 
 	del(src.root)
 	..()
+
+
+/obj/items/computer
+	name = "computer"
+	icon_state = "cpu"
+	var/obj/signal/computer/computer = null
+
+/obj/items/computer/verb/label(T as text)
+	set src in view(1)
+	set category = "computers"
+	if(!T)
+		name = "computer"
+		if(src.computer)
+			src.computer.label = null
+			src.computer.name = "computer"
+	else
+		name = "computer- '[T]'"
+		if(src.computer)
+			src.computer.label = T
+			src.computer.name = "computer- '[T]'"
+
+/obj/items/computer/New(loca, obj/O)
+	if (!isnull(O))
+		src.computer = new /obj/signal/computer( src )
+		src.computer.icon_state = "removed"
+		src.computer.status = "no_m"
+	else
+		src.computer = O
+
+/obj/items/computer/attack_by(obj/W, mob/user)
+	if (!( istype(W, /obj/items/wrench) ))
+		user << "You have to use a wrench"
+	if (!( isturf(src.loc) ))
+		user << "The computer cannot be deployed inside an object."
+	else
+		src.com.loc = src.loc
+		del(src)
